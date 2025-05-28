@@ -29,19 +29,18 @@ export default {
   },
   methods: {
     async kirimData() {
-      try {
-        const dataKirim = { ...this.form }
-        if (dataKirim.jenis_pasien !== 'BPJS') {
-          delete dataKirim.berlaku_hingga
-        }
-        await axios.post('/api/pasien', dataKirim)
-        alert('Data pasien berhasil disimpan!')
-        this.resetForm()
-      } catch (err) {
-        alert('Gagal simpan data')
-        console.error(err)
-      }
-    },
+  try {
+    const dataKirim = { ...this.form }
+    if (dataKirim.jenis_pasien !== 'BPJS') delete dataKirim.berlaku_hingga
+    const res = await axios.post('/api/pasien', dataKirim)
+    alert('Data pasien berhasil disimpan!')
+    this.$router.push({ name: 'ManajemenPasien', params: { id: res.data.id } })
+  } catch (err) {
+    alert('Gagal simpan data')
+    console.error(err)
+  }
+},
+    
     resetForm() {
       this.form = {
         nama: '',

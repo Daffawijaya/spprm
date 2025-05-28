@@ -5,15 +5,15 @@
       :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
       :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']"
       :items="pasienList"
-      :actions="[{ name: 'detail', label: 'Detail', event: 'lihatDetail' }]"
-      @lihatDetail="tampilkanDetail"
+      :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]"
+      @detailClicked="goToManajemen"
     />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import Tabel from '../components/Tabel.vue'
+import Tabel from '../../components/Tabel.vue'
 
 export default {
   components: { Tabel },
@@ -34,8 +34,12 @@ export default {
         console.error('Gagal ambil data pasien:', error)
       }
     },
-    tampilkanDetail(pasien) {
-      alert(`Detail pasien: ${pasien.nama}, umur ${pasien.umur}`)
+    goToManajemen(item) {
+      // Navigasi ke ManajemenPasien.vue dengan id sebagai route param
+      this.$router.push({
+        name: 'ManajemenPasien',
+        params: { id: item.id }
+      })
     }
   }
 }
