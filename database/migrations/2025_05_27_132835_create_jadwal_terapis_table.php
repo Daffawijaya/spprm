@@ -16,6 +16,7 @@ return new class extends Migration
         $table->foreignId('pasien_id')->constrained()->onDelete('cascade');
         $table->string('jenis_terapi');
         $table->date('tanggal_terapi');
+        $table->enum('sesi', ['1', '2', '3', '4', '5']);
         $table->timestamps();
     });
 }

@@ -14,14 +14,28 @@ class JadwalTerapiController extends Controller
     }
 
     public function store(Request $request, Pasien $pasien) {
-        $data = $request->validate([
-            'jenis_terapi' => 'required|string',
-            'tanggal_terapi' => 'required|date'
-        ]);
+    $data = $request->validate([
+        'jenis_terapi' => 'required|string',
+        'tanggal_terapi' => 'required|date',
+        'sesi' => 'required|in:1,2,3,4,5,6'
+    ]);
 
-        $jadwal = $pasien->jadwalTerapis()->create($data);
-        return response()->json($jadwal, 201);
+    // Cek kuota
+    $kuota = $pasien->jadwalTerapis()
+        ->where('tanggal_terapi', $data['tanggal_terapi'])
+        ->where('sesi', $data['sesi'])
+        ->count();
+
+    if ($kuota >= 6) {
+        return response()->json([
+            'message' => 'Sesi ini sudah penuh. Silakan pilih sesi lain.'
+        ], 409);
     }
+
+    $jadwal = $pasien->jadwalTerapis()->create($data);
+
+    return response()->json($jadwal, 201);
+}
 
     public function show(Pasien $pasien, JadwalTerapi $jadwal) {
         $this->authorizeJadwal($pasien, $jadwal);
