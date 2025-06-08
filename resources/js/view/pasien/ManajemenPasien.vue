@@ -21,6 +21,7 @@
       <button @click="tambahJadwal">Tambah Jadwal</button>
     </div>
     <table v-else border="1" cellpadding="8">
+      <button @click="tambahJadwal">Tambah Jadwal</button>
       <tr>
         <th>Jenis Terapi</th>
         <th>Tanggal</th>
