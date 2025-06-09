@@ -2,7 +2,7 @@
   <div class="app-container flex">
     <Sidebar />
 
-    <div class="content p-4 flex-1">
+    <div class="content p-7 flex-1">
          <Navbar />
       <router-view />
     </div>
