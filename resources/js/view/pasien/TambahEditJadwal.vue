@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-    async fetchJadwal() {
+          async fetchJadwal() {
       try {
         const res = await axios.get(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`)
         this.form = {
@@ -84,6 +84,7 @@ export default {
           this.success = 'Jadwal berhasil ditambahkan!'
           this.form = { jenis_terapi: '', tanggal_terapi: '', sesi: '' }
         }
+        this.$router.push(`/daftar-pasien/manajemen/${this.pasienId}`)
       } catch (err) {
         this.error = err.response?.data?.message || 'Gagal menyimpan jadwal'
       } finally {
