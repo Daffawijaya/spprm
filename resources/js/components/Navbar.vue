@@ -1,15 +1,15 @@
 <template>
-  <div style="display: flex; justify-content: flex-end; padding: 10px; background: #f8f8f8; position: relative;">
-    <div @click="toggleDropdown" style="cursor: pointer;">
-     <img src="http://localhost:8000/profile.jpg" alt="Foto Profil" style="width: 40px; height: 40px; border-radius: 50%;" />
-    </div>
-
-    <div v-if="showDropdown" style="position: absolute; top: 60px; right: 10px; background: white; border: 1px solid #ccc; border-radius: 5px; width: 100px;">
-      <button @click="logout" style="padding: 10px; width: 100%; text-align: left; background: none; border: none; cursor: pointer;">
-        Logout
+    <div class="p-4 flex justify-end">
+    <div class="relative"  @click="toggleDropdown" style="cursor: pointer; ">
+     <img src="http://localhost:8000/image/default-profile.jpg" alt="Foto Profil" class="w-10 h-10 rounded-full" />
+    <div class="absolute right-0 mt-2 bg-white rounded-full shadow-md px-3 py-1" v-if="showDropdown " >
+      <button @click="logout" style="cursor: pointer;">
+        Keluar
       </button>
     </div>
   </div>
+  </div>
+   
 </template>
 
 <script>
