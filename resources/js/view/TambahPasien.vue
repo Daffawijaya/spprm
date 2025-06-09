@@ -23,7 +23,7 @@ export default {
         jenis_pasien: '',
         berlaku_hingga: '',
         poli_asal: '',
-        riwayat: '',
+        riwayat_medis: '',
       }
     }
   },

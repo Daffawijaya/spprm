@@ -57,7 +57,7 @@
     </div>
     <div>
       <label>Riwayat:</label>
-      <textarea v-model="form.riwayat"></textarea>
+      <textarea v-model="form.riwayat_medis"></textarea>
     </div>
     <button type="submit">Simpan</button>
   </form>

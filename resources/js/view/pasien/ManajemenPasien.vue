@@ -6,11 +6,11 @@
       <p><strong>Jenis Kelamin:</strong> {{ pasien.jenis_kelamin }}</p>
       <p><strong>NIK:</strong> {{ pasien.nik }}</p>
       <p><strong>Alamat:</strong> {{ pasien.alamat }}</p>
-      <p><strong>Telepon:</strong> {{ pasien.nomor_telepon }}</p>
+      <p><strong>Telepon:</strong> {{ pasien.no_telepon }}</p>
       <p><strong>Jenis Pasien:</strong> {{ pasien.jenis_pasien }}</p>
       <p v-if="pasien.berlaku_hingga"><strong>Berlaku Hingga:</strong> {{ pasien.berlaku_hingga }}</p>
       <p><strong>Poli Asal:</strong> {{ pasien.poli_asal }}</p>
-      <p><strong>Riwayat:</strong> {{ pasien.riwayat }}</p>
+      <p><strong>Riwayat:</strong> {{ pasien.riwayat_medis }}</p>
       <button @click="editPasien">Edit</button>
       <button @click="hapusPasien">Hapus</button>
     </div>
