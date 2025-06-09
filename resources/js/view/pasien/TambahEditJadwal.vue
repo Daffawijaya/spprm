@@ -58,7 +58,7 @@ export default {
     }
   },
   methods: {
-          async fetchJadwal() {
+    async fetchJadwal() {
       try {
         const res = await axios.get(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`)
         this.form = {

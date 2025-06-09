@@ -18,7 +18,7 @@ const routes = [
   { path: '/qa', name: 'QA', component: QA },
   { path: '/daftar-pasien/manajemen/:id', name: 'ManajemenPasien', component: ManajemenPasien },
   { path: '/daftar-pasien/manajemen/:pasienId/jadwal/:jadwalId?', name: 'TambahEditJadwal', component: TambahEditJadwal, props: true },
-  { path: '/daftar-pasien/manajemen/:id/edit', name: 'EditPasien', component: EditPasien, props: true},
+  { path: '/daftar-pasien/manajemen/:id/edit', name: 'EditPasien', component: EditPasien, props: true },
 ];
 
 const router = createRouter({

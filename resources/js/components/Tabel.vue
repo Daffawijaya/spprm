@@ -10,12 +10,8 @@
       <tr v-for="(item, index) in items" :key="index">
         <td v-for="key in keys" :key="key">{{ item[key] }}</td>
         <td v-if="actions.length">
-          <button
-            v-for="action in actions"
-            :key="action.name"
-            @click="$emit(action.event, item)"
-            style="margin-right: 4px"
-          >
+          <button v-for="action in actions" :key="action.name" @click="$emit(action.event, item)"
+            style="margin-right: 4px">
             {{ action.label }}
           </button>
         </td>

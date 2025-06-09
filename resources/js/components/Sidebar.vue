@@ -16,7 +16,17 @@ export default { name: 'Sidebar' };
 </script>
 
 <style scoped>
-nav ul { list-style: none; padding: 0; }
-nav a { text-decoration: none; color: #333; }
-nav a.router-link-active { font-weight: bold; }
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+nav a.router-link-active {
+  font-weight: bold;
+}
 </style>

@@ -1,13 +1,9 @@
 <template>
   <div>
     <h1>Daftar Pasien</h1>
-    <Tabel
-      :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
-      :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']"
-      :items="pasienList"
-      :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]"
-      @detailClicked="goToManajemen"
-    />
+    <Tabel :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
+      :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienList"
+      :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]" @detailClicked="goToManajemen" />
   </div>
 </template>
 

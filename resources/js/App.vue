@@ -3,7 +3,7 @@
     <Sidebar />
 
     <div class="content p-7 flex-1">
-         <Navbar />
+      <Navbar />
       <router-view />
     </div>
   </div>
@@ -20,6 +20,11 @@ export default {
 </script>
 
 <style scoped>
-.app-container { min-height: 100vh; }
-.content { background: #f9f9f9; }
+.app-container {
+  min-height: 100vh;
+}
+
+.content {
+  background: #f9f9f9;
+}
 </style>
