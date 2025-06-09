@@ -6,7 +6,7 @@ import TambahPasien from '../view/TambahPasien.vue';
 import Reschedule from '../view/Reschedule.vue';
 import QA from '../view/QA.vue';
 import ManajemenPasien from '../view/pasien/ManajemenPasien.vue';
-import TambahJadwal from '../view/pasien/Tambahjadwal.vue';
+import TambahEditJadwal from '../view/pasien/TambahEditJadwal.vue';
 
 const routes = [
   { path: '/', name: 'Dashboard', component: Dashboard },
@@ -16,7 +16,7 @@ const routes = [
   { path: '/reschedule', name: 'Reschedule', component: Reschedule },
   { path: '/qa', name: 'QA', component: QA },
   { path: '/daftar-pasien/manajemen/:id', name: 'ManajemenPasien', component: ManajemenPasien },
-  { path: '/daftar-pasien/:pasienId/tambah-jadwal', name: 'TambahJadwal', component: TambahJadwal, props: true },
+  { path: '/daftar-pasien/manajemen/:pasienId/jadwal/:jadwalId?', name: 'TambahEditJadwal', component: TambahEditJadwal, props: true },
 ];
 
 const router = createRouter({

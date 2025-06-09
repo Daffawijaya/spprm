@@ -66,10 +66,10 @@ export default {
       this.$router.push({ name: 'DaftarPasien' })
     },
     tambahJadwal() {
-      this.$router.push({ name: 'TambahJadwal', params: { pasienId: this.pasien.id } })
+      this.$router.push({ name: 'TambahEditJadwal', params: { pasienId: this.pasien.id } })
     },
     editJadwal(jadwal) {
-      this.$router.push({ name: 'EditJadwal', params: { pasienId: this.pasien.id, jadwalId: jadwal.id } })
+      this.$router.push({ name: 'TambahEditJadwal', params: { pasienId: this.pasien.id, jadwalId: jadwal.id } })
     },
     async hapusJadwal(id) {
       if (!confirm('Yakin hapus jadwal?')) return

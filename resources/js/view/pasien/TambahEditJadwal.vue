@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <h1>Tambah Jadwal Terapi</h1>
-    <form @submit.prevent="submitJadwal">
+    <h1>{{ isEdit ? 'Edit Jadwal Terapi' : 'Tambah Jadwal Terapi' }}</h1>
+    <form @submit.prevent="submitForm">
       <div>
         <label>Jenis Terapi</label>
         <JenisTerapiDropdown v-model="form.jenis_terapi" />
@@ -18,7 +18,7 @@
       </div>
 
       <button type="submit" :disabled="loading">
-        {{ loading ? 'Menyimpan...' : 'Tambah Jadwal' }}
+        {{ loading ? 'Menyimpan...' : isEdit ? 'Update Jadwal' : 'Tambah Jadwal' }}
       </button>
 
       <p v-if="error" style="color:red">{{ error }}</p>
@@ -35,10 +35,12 @@ import axios from 'axios'
 export default {
   components: { SesiDropdown, JenisTerapiDropdown },
   props: {
-    pasienId: { type: Number, required: true }
+    pasienId: { type: Number, required: true },
+    jadwalId: { type: Number, default: null }
   },
   data() {
     return {
+      isEdit: false,
       form: {
         jenis_terapi: '',
         tanggal_terapi: '',
@@ -49,18 +51,39 @@ export default {
       success: ''
     }
   },
+  created() {
+    if (this.jadwalId) {
+      this.isEdit = true
+      this.fetchJadwal()
+    }
+  },
   methods: {
-    async submitJadwal() {
+    async fetchJadwal() {
+      try {
+        const res = await axios.get(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`)
+        this.form = {
+          jenis_terapi: res.data.jenis_terapi,
+          tanggal_terapi: res.data.tanggal_terapi,
+          sesi: res.data.sesi
+        }
+      } catch (err) {
+        this.error = 'Gagal mengambil data jadwal'
+      }
+    },
+    async submitForm() {
       this.error = ''
       this.success = ''
       this.loading = true
 
       try {
-        const response = await axios.post(`/api/pasien/${this.pasienId}/jadwal`, this.form)
-        this.success = 'Jadwal berhasil ditambahkan!'
-        this.form.jenis_terapi = ''
-        this.form.tanggal_terapi = ''
-        this.form.sesi = ''
+        if (this.isEdit) {
+          await axios.put(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`, this.form)
+          this.success = 'Jadwal berhasil diupdate!'
+        } else {
+          await axios.post(`/api/pasien/${this.pasienId}/jadwal`, this.form)
+          this.success = 'Jadwal berhasil ditambahkan!'
+          this.form = { jenis_terapi: '', tanggal_terapi: '', sesi: '' }
+        }
       } catch (err) {
         this.error = err.response?.data?.message || 'Gagal menyimpan jadwal'
       } finally {
