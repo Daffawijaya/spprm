@@ -13,7 +13,9 @@ export default {
     return {
       jenisOptions: [
         'Fisioterapi',
-        'Terapi Okupasi',
+        'Fisioterapi Pediatri',
+        'Psikologis Klinis',
+        'Okupasi Terapi ',
         'Terapi Wicara',
         // tambah sesuai kebutuhan
       ],

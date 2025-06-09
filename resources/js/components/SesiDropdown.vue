@@ -19,7 +19,6 @@ export default {
         { id: 3, label: 'Sesi 3 (10.30-12.00)' },
         { id: 4, label: 'Sesi 4 (13.00-14.30)' },
         { id: 5, label: 'Sesi 5 (14.30-16.00)' },
-        { id: 6, label: 'Sesi 6 (16.00-17.30)' },
       ],
       selectedValue: this.modelValue
     }
