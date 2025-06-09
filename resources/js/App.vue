@@ -1,7 +1,9 @@
 <template>
   <div class="app-container flex">
     <Sidebar />
+
     <div class="content p-4 flex-1">
+         <Navbar />
       <router-view />
     </div>
   </div>
@@ -9,9 +11,11 @@
 
 <script>
 import Sidebar from './components/Sidebar.vue';
+import Navbar from './components/Navbar.vue'
+
 export default {
   name: 'App',
-  components: { Sidebar }
+  components: { Sidebar, Navbar }
 };
 </script>
 
