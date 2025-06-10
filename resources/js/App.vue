@@ -1,9 +1,10 @@
 <template>
-  <div class="app-container flex">
+  <div class="flex">
     <Sidebar />
 
-    <div class="content p-7 flex-1">
+    <div class="p-7 flex-1">
       <Navbar />
+      <Breadcrumb />
       <router-view />
     </div>
   </div>
@@ -12,19 +13,11 @@
 <script>
 import Sidebar from './components/Sidebar.vue';
 import Navbar from './components/Navbar.vue'
+import Breadcrumb from './components/Breadcrumb.vue'
 
 export default {
   name: 'App',
-  components: { Sidebar, Navbar }
+  components: { Sidebar, Navbar, Breadcrumb }
 };
 </script>
 
-<style scoped>
-.app-container {
-  min-height: 100vh;
-}
-
-.content {
-  background: #f9f9f9;
-}
-</style>
