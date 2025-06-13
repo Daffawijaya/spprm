@@ -1,41 +1,51 @@
 <template>
   <div>
     <h1>Daftar Pasien</h1>
-    <Tabel :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
-      :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienList"
-      :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]" @detailClicked="goToManajemen" />
+
+    <div v-if="loading">Loading...</div>
+    <div v-else>
+      <Tabel
+        :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
+        :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']"
+        :items="pasienStore.pasienList"
+        :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]"
+        @detailClicked="goToManajemen"
+      />
+    </div>
+
+    <div v-if="pasienStore.error" class="text-red-500">
+      Terjadi kesalahan saat mengambil data.
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { usePasienStore } from '@/stores/pasienStore'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Tabel from '../../components/Tabel.vue'
 
 export default {
   components: { Tabel },
-  data() {
-    return {
-      pasienList: []
-    }
-  },
-  mounted() {
-    this.ambilPasien()
-  },
-  methods: {
-    async ambilPasien() {
-      try {
-        const response = await axios.get('/api/pasien')
-        this.pasienList = response.data
-      } catch (error) {
-        console.error('Gagal ambil data pasien:', error)
-      }
-    },
-    goToManajemen(item) {
-      // Navigasi ke ManajemenPasien.vue dengan id sebagai route param
-      this.$router.push({
+  setup() {
+    const pasienStore = usePasienStore()
+    const router = useRouter()
+
+    onMounted(() => {
+      pasienStore.fetchPasien()
+    })
+
+    const goToManajemen = (item) => {
+      router.push({
         name: 'ManajemenPasien',
         params: { id: item.id }
       })
+    }
+
+    return {
+      pasienStore,
+      goToManajemen,
+      loading: pasienStore.loading
     }
   }
 }

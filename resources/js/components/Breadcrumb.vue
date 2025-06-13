@@ -1,7 +1,7 @@
 <template>
   <nav class="text-sm text-gray-500 mb-2">
-    Dashboard
-    <span v-for="(segment, index) in segments" :key="index"> / <!-- Hilangkan spasi sebelum dan setelah slash -->
+    <span v-for="(segment, index) in segments" :key="index">
+      <span v-if="index !== 0"> &gt; </span>
       <span class="capitalize">
         {{ formatSegment(segment) }}
       </span>

@@ -6,8 +6,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Form from '../../components/Form.vue'
+import { usePasienStore } from '../../stores/pasienStore' // ✅ Import store
+import { mapActions } from 'pinia'
 
 export default {
   components: { Form },
@@ -29,31 +30,32 @@ export default {
     }
   },
   async created() {
-    try {
-      const res = await axios.get(`/api/pasien/${this.id}`)
+    const pasienStore = usePasienStore()
+    const data = await pasienStore.getPasienById(this.id)
+    if (data) {
       this.form = {
-        nama: res.data.nama,
-        umur: res.data.umur,
-        jenis_kelamin: res.data.jenis_kelamin,
-        nik: res.data.nik,
-        alamat: res.data.alamat,
-        no_telepon: res.data.no_telepon,
-        jenis_pasien: res.data.jenis_pasien,
-        berlaku_hingga: res.data.berlaku_hingga,
-        poli_asal: res.data.poli_asal,
-        riwayat_medis: res.data.riwayat_medis,
+        nama: data.nama,
+        umur: data.umur,
+        jenis_kelamin: data.jenis_kelamin,
+        nik: data.nik,
+        alamat: data.alamat,
+        no_telepon: data.no_telepon,
+        jenis_pasien: data.jenis_pasien,
+        berlaku_hingga: data.berlaku_hingga,
+        poli_asal: data.poli_asal,
+        riwayat_medis: data.riwayat_medis,
       }
-    } catch (err) {
+    } else {
       alert('Gagal mengambil data pasien')
-      console.error(err)
     }
   },
   methods: {
     async kirimData() {
+      const pasienStore = usePasienStore()
       try {
         const dataKirim = { ...this.form }
         if (dataKirim.jenis_pasien !== 'BPJS') delete dataKirim.berlaku_hingga
-        await axios.put(`/api/pasien/${this.id}`, dataKirim)
+        await pasienStore.updatePasien(this.id, dataKirim)
         alert('Data pasien berhasil diperbarui!')
         this.$router.push({ name: 'ManajemenPasien', params: { id: this.id } })
       } catch (err) {
