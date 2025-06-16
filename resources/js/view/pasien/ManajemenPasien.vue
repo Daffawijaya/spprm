@@ -39,43 +39,50 @@
   </div>
 </template>
 
-<script>
-import axios from 'axios'
-export default {
-  data() {
-    return {
-      pasien: {},
-      jadwalList: []
-    }
-  },
-  async created() {
-    const id = this.$route.params.id
-    // Ambil detail pasien + jadwal (API sudah eager load jadwal)
-    const res = await axios.get(`/api/pasien/${id}`)
-    this.pasien = res.data
-    this.jadwalList = res.data.jadwal_terapis || []
-  },
-  methods: {
-    editPasien() {
-      this.$router.push({ name: 'EditPasien', params: { id: this.pasien.id } })
-    },
-    async hapusPasien() {
-      if (!confirm('Yakin hapus pasien?')) return
-      await axios.delete(`/api/pasien/${this.pasien.id}`)
-      alert('Pasien dihapus')
-      this.$router.push({ name: 'DaftarPasien' })
-    },
-    tambahJadwal() {
-      this.$router.push({ name: 'TambahEditJadwal', params: { pasienId: this.pasien.id } })
-    },
-    editJadwal(jadwal) {
-      this.$router.push({ name: 'TambahEditJadwal', params: { pasienId: this.pasien.id, jadwalId: jadwal.id } })
-    },
-    async hapusJadwal(id) {
-      if (!confirm('Yakin hapus jadwal?')) return
-      await axios.delete(`/api/pasien/${this.pasien.id}/jadwal/${id}`)
-      this.jadwalList = this.jadwalList.filter(j => j.id !== id)
-    }
-  }
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { usePasienStore } from '@/stores/pasienStore'
+import { useJadwalStore } from '@/stores/jadwalStore'
+
+const route = useRoute()
+const router = useRouter()
+
+const pasienStore = usePasienStore()
+const jadwalStore = useJadwalStore()
+
+const id = route.params.id
+
+onMounted(async () => {
+  await pasienStore.getPasienById(id)
+  await jadwalStore.fetchByPasien(id)
+})
+
+// buat pasien & jadwal reactive (computed agar re-render otomatis)
+const pasien = computed(() => pasienStore.pasien)
+const jadwalList = computed(() => jadwalStore.jadwalList)
+
+const editPasien = () => {
+  router.push({ name: 'EditPasien', params: { id: pasien.value.id } })
+}
+
+const hapusPasien = async () => {
+  if (!confirm('Yakin hapus pasien?')) return
+  await pasienStore.deletePasien(pasien.value.id)
+  alert('Pasien dihapus')
+  router.push({ name: 'DaftarPasien' })
+}
+
+const tambahJadwal = () => {
+  router.push({ name: 'TambahEditJadwal', params: { pasienId: pasien.value.id } })
+}
+
+const editJadwal = (jadwal) => {
+  router.push({ name: 'TambahEditJadwal', params: { pasienId: pasien.value.id, jadwalId: jadwal.id } })
+}
+
+const hapusJadwal = async (jadwalId) => {
+  if (!confirm('Yakin hapus jadwal?')) return
+  await jadwalStore.deleteJadwal(pasien.value.id, jadwalId)
 }
 </script>

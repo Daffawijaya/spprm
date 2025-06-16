@@ -8,7 +8,7 @@
 <script>
 import Form from '../../components/Form.vue'
 import { usePasienStore } from '../../stores/pasienStore' // ✅ Import store
-import { mapActions } from 'pinia'
+
 
 export default {
   components: { Form },

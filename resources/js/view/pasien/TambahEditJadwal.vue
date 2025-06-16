@@ -27,70 +27,76 @@
   </div>
 </template>
 
-<script>
-import SesiDropdown from '../../components/SesiDropdown.vue'
-import JenisTerapiDropdown from '../../components/JenisTerapiDropdown.vue'
-import axios from 'axios'
+<script setup>
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useJadwalStore } from '@/stores/jadwalStore'
+import SesiDropdown from '@/components/SesiDropdown.vue'
+import JenisTerapiDropdown from '@/components/JenisTerapiDropdown.vue'
 
-export default {
-  components: { SesiDropdown, JenisTerapiDropdown },
-  props: {
-    pasienId: { type: Number, required: true },
-    jadwalId: { type: Number, default: null }
-  },
-  data() {
-    return {
-      isEdit: false,
-      form: {
-        jenis_terapi: '',
-        tanggal_terapi: '',
-        sesi: ''
-      },
-      loading: false,
-      error: '',
-      success: ''
-    }
-  },
-  created() {
-    if (this.jadwalId) {
-      this.isEdit = true
-      this.fetchJadwal()
-    }
-  },
-  methods: {
-    async fetchJadwal() {
-      try {
-        const res = await axios.get(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`)
-        this.form = {
-          jenis_terapi: res.data.jenis_terapi,
-          tanggal_terapi: res.data.tanggal_terapi,
-          sesi: res.data.sesi
-        }
-      } catch (err) {
-        this.error = 'Gagal mengambil data jadwal'
-      }
-    },
-    async submitForm() {
-      this.error = ''
-      this.success = ''
-      this.loading = true
+const route = useRoute()
+const router = useRouter()
+const jadwalStore = useJadwalStore()
 
-      try {
-        if (this.isEdit) {
-          await axios.put(`/api/pasien/${this.pasienId}/jadwal/${this.jadwalId}`, this.form)
-          this.success = 'Jadwal berhasil diupdate!'
-        } else {
-          await axios.post(`/api/pasien/${this.pasienId}/jadwal`, this.form)
-          this.success = 'Jadwal berhasil ditambahkan!'
-          this.form = { jenis_terapi: '', tanggal_terapi: '', sesi: '' }
+const pasienId = Number(route.params.pasienId)
+const jadwalId = route.params.jadwalId ? Number(route.params.jadwalId) : null
+
+const isEdit = ref(false)
+const form = ref({
+  jenis_terapi: '',
+  tanggal_terapi: '',
+  sesi: ''
+})
+
+const loading = ref(false)
+const error = ref('')
+const success = ref('')
+
+onMounted(async () => {
+  if (jadwalId) {
+    isEdit.value = true
+    loading.value = true
+    try {
+      const res = await jadwalStore.fetchByPasien(pasienId)
+      const current = jadwalStore.jadwalList.find(j => j.id === jadwalId)
+      if (current) {
+        form.value = {
+          jenis_terapi: current.jenis_terapi,
+          tanggal_terapi: current.tanggal_terapi,
+          sesi: current.sesi
         }
-        this.$router.push(`/daftar-pasien/manajemen/${this.pasienId}`)
-      } catch (err) {
-        this.error = err.response?.data?.message || 'Gagal menyimpan jadwal'
-      } finally {
-        this.loading = false
+      } else {
+        error.value = 'Data jadwal tidak ditemukan'
       }
+    } catch (err) {
+      error.value = 'Gagal mengambil data jadwal'
+    } finally {
+      loading.value = false
     }
+  }
+})
+
+const submitForm = async () => {
+  loading.value = true
+  error.value = ''
+  success.value = ''
+  try {
+    if (isEdit.value) {
+      await jadwalStore.updateJadwal(pasienId, jadwalId, form.value)
+      success.value = 'Jadwal berhasil diupdate!'
+    } else {
+      const result = await jadwalStore.createJadwal(pasienId, form.value)
+      if (!result.success) {
+        throw new Error(result.message)
+      }
+      success.value = 'Jadwal berhasil ditambahkan!'
+      form.value = { jenis_terapi: '', tanggal_terapi: '', sesi: '' }
+    }
+    router.push({ name: 'ManajemenPasien', params: { id: pasienId } })
+  } catch (err) {
+    error.value = err.message || 'Gagal menyimpan jadwal'
+  } finally {
+    loading.value = false
   }
 }
 </script>

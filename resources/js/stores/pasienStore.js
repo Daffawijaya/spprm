@@ -3,11 +3,12 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const usePasienStore = defineStore('pasien', {
-  state: () => ({
-    pasienList: [],
-    loading: false,
-    error: null
-  }),
+state: () => ({
+  pasienList: [],
+  pasien: {}, // Tambahkan ini
+  loading: false,
+  error: null
+}),
 
   actions: {
     // GET
@@ -26,18 +27,20 @@ export const usePasienStore = defineStore('pasien', {
     },
 
     async getPasienById(id) {
-      this.loading = true
-      try {
-        const res = await axios.get(`/api/pasien/${id}`)
-        return res.data
-      } catch (err) {
-        this.error = err
-        console.error('Gagal ambil pasien:', err)
-        return null
-      } finally {
-        this.loading = false
-      }
-    },
+  this.loading = true
+  try {
+    const res = await axios.get(`/api/pasien/${id}`)
+    this.pasien = res.data // <-- simpan ke state
+    return res.data
+  } catch (err) {
+    this.error = err
+    console.error('Gagal ambil pasien:', err)
+    return null
+  } finally {
+    this.loading = false
+  }
+},
+
 
     // CREATE
     async createPasien(data) {

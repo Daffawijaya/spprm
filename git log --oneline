@@ -1,0 +1,125 @@
+[33mcommit fc67e1b3ce46b226f8ab2dd78a5b43024c216a68[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Fri Jun 13 07:57:31 2025 +0700
+
+    install pinia and integrate pasien store
+
+[33mcommit 3fa7733c0e32a2f7d27c9581e2cd012a8cc174ab[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Tue Jun 10 20:38:07 2025 +0700
+
+    add Breadcrumb
+
+[33mcommit ce2e869ea7298b517134eb07e36036ebffb57100[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 19:23:23 2025 +0700
+
+    fix format
+
+[33mcommit bbe7768b7c9525480d9fdd875b207d9aaaaf853e[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 19:11:17 2025 +0700
+
+    fix bug
+
+[33mcommit 909e22d22478fb4484a9570650918a512f6d34e3[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 18:46:11 2025 +0700
+
+    add mini update
+
+[33mcommit 393cfdfec77674a9ad4a0424418ef7fb998160d6[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 16:46:27 2025 +0700
+
+    add and fix feature tailwind instal poppins
+
+[33mcommit d49acf65a816a7392414cea5c356d4b9e88ad3d5[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 14:49:58 2025 +0700
+
+    fix navbar n dropwdown bug
+
+[33mcommit 6ee59212b018ea82ad57406c1d7a0f66999fd5ff[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 12:28:17 2025 +0700
+
+    install tailwind
+
+[33mcommit f16521875dc9554c4f2a6f7cbbf50284b3e8c8ca[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 11:49:33 2025 +0700
+
+    add navbar
+
+[33mcommit 563bcb2d98413ad54f53363f64cf8a2340f8beb2[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 11:27:50 2025 +0700
+
+    fix bug post/put pasien and add feature edit pasien
+
+[33mcommit a261bb17e4df56eba9bd09d3278c85399df21c54[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 11:03:53 2025 +0700
+
+    add edit jadwal feature
+
+[33mcommit 1cd7f2b17a29f4dcaa1e2d81c8b7e087b2ae7fe0[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Mon Jun 9 10:04:45 2025 +0700
+
+    fix dropdown jenis and sesi
+
+[33mcommit 4dd7f365fc90e04cdf60dbb246cf63d75a15a7e9[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Sun Jun 8 19:37:28 2025 +0700
+
+    add frontend feature tambahjadwal
+
+[33mcommit dd94a52596ecf80c0e5c598091ad5469684c4ba3[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Sun Jun 8 19:01:11 2025 +0700
+
+    add sesi route api
+
+[33mcommit 89d53d091c0dc2faf97772afa5bb2169e26f48e6[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 16:18:18 2025 +0700
+
+    add view detail manajemen pasien
+
+[33mcommit 770c1d0605940f463edf59267735b6d980df5c7d[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 13:36:40 2025 +0700
+
+    add: form and tambah pasien (create pasien)
+
+[33mcommit 2b13f1a138e8cd2065cc66ad3a671aaa94202ef2[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 13:07:14 2025 +0700
+
+    add: table and daftar pasien
+
+[33mcommit 5229713622ce79d3e1e1bd1f9ae1c4ce13153add[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 12:53:49 2025 +0700
+
+    add routing frontend
+
+[33mcommit 78e3ea849fbbfec9e2eb708f13461de46c8259a3[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 12:30:30 2025 +0700
+
+    install vue
+
+[33mcommit 2bac288b41f54485ee490fd3315da397ebc4c3a0[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 12:20:15 2025 +0700
+
+    backend, api, routing
+
+[33mcommit 1c643e529d144fc217c7f723f54e6ce1bab9435e[m
+Author: Daffawijaya <daffayanwijaya@gmail.com>
+Date:   Wed May 28 12:17:18 2025 +0700
+
+    backend, routing, and api
