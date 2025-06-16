@@ -16,9 +16,9 @@ return new class extends Migration
         $table->string('nama');
         $table->integer('umur');
         $table->enum('jenis_kelamin', ['L', 'P']);
-        $table->string('nik')->unique();
+        $table->string('nik', 16)->unique();
         $table->text('alamat');
-        $table->string('no_telepon');
+        $table->string('no_telepon')->unique();;
         $table->enum('jenis_pasien', ['BPJS', 'Mandiri']);
         $table->date('berlaku_hingga')->nullable();
         $table->string('poli_asal');

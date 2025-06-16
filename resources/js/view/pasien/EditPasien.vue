@@ -59,7 +59,14 @@ export default {
         alert('Data pasien berhasil diperbarui!')
         this.$router.push({ name: 'ManajemenPasien', params: { id: this.id } })
       } catch (err) {
-        alert('Gagal memperbarui data pasien')
+        if (err.response && err.response.status === 422) {
+          const errors = err.response.data.errors
+          const firstError = Object.values(errors)[0][0]
+          alert(firstError)
+        } else {
+          alert('Gagal menyimpan data.')
+          this.errorMessage = 'Gagal menyimpan data.'
+        }
         console.error(err)
       }
     }
