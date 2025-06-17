@@ -8,6 +8,8 @@ import QA from '../view/QA.vue';
 import ManajemenPasien from '../view/pasien/ManajemenPasien.vue';
 import TambahEditJadwal from '../view/pasien/TambahEditJadwal.vue';
 import EditPasien from '../view/pasien/EditPasien.vue';
+import PilihTanggal from '../view/pasien/PilihTanggal.vue';
+import PilihSesi from '../view/pasien/PilihSesi.vue';
 
 const routes = [
   { path: '/', name: 'Dashboard', component: Dashboard },
@@ -17,6 +19,10 @@ const routes = [
   { path: '/reschedule', name: 'Reschedule', component: Reschedule },
   { path: '/qa', name: 'QA', component: QA },
   { path: '/daftar-pasien/manajemen/:id', name: 'ManajemenPasien', component: ManajemenPasien },
+
+  { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal', name: 'PilihTanggal', component: PilihTanggal, props: true },
+  { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal/:tanggal/sesi', name: 'PilihSesi', component: PilihSesi, props: true },
+
   { path: '/daftar-pasien/manajemen/:pasienId/jadwal/:jadwalId?', name: 'TambahEditJadwal', component: TambahEditJadwal, props: true },
   { path: '/daftar-pasien/manajemen/:id/edit', name: 'EditPasien', component: EditPasien, props: true },
 ];

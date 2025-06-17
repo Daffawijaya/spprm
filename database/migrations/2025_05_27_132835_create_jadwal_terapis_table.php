@@ -9,17 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-{
-    Schema::create('jadwal_terapis', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('pasien_id')->constrained()->onDelete('cascade');
-        $table->string('jenis_terapi');
-        $table->date('tanggal_terapi');
-        $table->enum('sesi', ['1', '2', '3', '4', '5']);
-        $table->timestamps();
-    });
-}
+    public function up()
+    {
+        Schema::create('jadwal_terapis', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('cascade');
+            $table->string('jenis_terapi');
+            $table->date('tanggal_terapi');
+            $table->unsignedTinyInteger('sesi'); // 1 - 5
+            $table->timestamps();
+
+            $table->unique(['tanggal_terapi', 'sesi', 'pasien_id']); // pasien tidak boleh duplikat sesi
+        });
+    }
+
 
 
     /**
