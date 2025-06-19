@@ -34,8 +34,12 @@ const menuItems = [
 ]
 
 function isActiveRoute(path) {
-  return route.path === path
+  if (path === '/') {
+    return route.path === '/'
+  }
+  return route.path.startsWith(path)
 }
+
 </script>
 
 <style scoped>
