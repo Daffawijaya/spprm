@@ -49,7 +49,7 @@
         </div>
 
         <!-- Kanan: Aksi -->
-        <div class="w-fit flex flex-col gap-4 items-end">
+        <div class="w-fit flex flex-col gap-2 items-end">
           <PrimaryButton color="orange" @click="editPasien">Edit
             <template #icon>
               <ArrowRightStartOnRectangleIcon class="size-5" />

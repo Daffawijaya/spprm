@@ -26,7 +26,7 @@
         <tr
           v-for="(item, rowIndex) in items"
           :key="rowIndex"
-          :class="rowIndex % 2 === 1 ? 'bg-[#F9FAFF]' : 'bg-white'"
+          :class="rowIndex % 2 === 1 ? 'bg-[#F6F8FE]' : 'bg-white'"
         >
           <!-- Render each cell based on keys -->
           <td

@@ -3,4 +3,7 @@
 /* Konfigurasi tema langsung di CSS */
 @theme {
   --font-sans: "Poppins", sans-serif;
+  --color-green: #ADDC8B;
+  --color-orange: #FF7D3F;
+  --color-grey: #CCCCCC;
 }
