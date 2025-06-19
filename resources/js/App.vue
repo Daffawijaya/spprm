@@ -2,7 +2,7 @@
   <div class="flex bg-[#EFF2F9]">
     <Sidebar />
 
-    <div class="p-7 flex-1">
+    <div class="p-7 flex-1 space-y-2">
       <Navbar />
       <Breadcrumb />
       <router-view />

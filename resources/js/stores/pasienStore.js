@@ -5,19 +5,37 @@ import axios from 'axios'
 export const usePasienStore = defineStore('pasien', {
   state: () => ({
     pasienList: [],
-    pasien: {}, // Tambahkan ini
+    pasien: {},
     loading: false,
-    error: null
+    error: null,
+    pagination: {
+      currentPage: 1,
+      perPage: 10,
+      total: 0
+    }
   }),
+
 
   actions: {
     // GET
-    async fetchPasien() {
+    async fetchPasien({ page = 1, perPage = 10, search = '' } = {}) {
       this.loading = true
       this.error = null
       try {
-        const response = await axios.get('/api/pasien')
-        this.pasienList = response.data
+        const response = await axios.get('/api/pasien', {
+          params: { page, per_page: perPage, search }
+        })
+
+        // Simpan hanya array pasien
+        this.pasienList = response.data.data
+
+        // (Opsional) bisa simpan meta pagination kalau dibutuhkan di UI
+        this.pagination = {
+          currentPage: response.data.current_page,
+          total: response.data.total,
+          lastPage: response.data.last_page,
+          perPage: response.data.per_page
+        }
       } catch (err) {
         this.error = err
         console.error('Gagal fetch data pasien:', err)
@@ -25,6 +43,7 @@ export const usePasienStore = defineStore('pasien', {
         this.loading = false
       }
     },
+
 
     async getPasienById(id) {
       this.loading = true
