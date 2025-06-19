@@ -9,10 +9,16 @@
     <!-- Pagination di slot table (atau bisa di slot footer juga) -->
     <template #table>
       <Tabel :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
-        :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienStore.pasienList" :actions="[
-          { name: 'detail', label: 'Detail', event: 'detailClicked' }
-        ]" @detailClicked="goToManajemen" />
+        :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienStore.pasienList"
+        :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]" @detailClicked="goToManajemen">
+        <template #actions="{ item, emit }">
+          <div class="flex justify-center">
+            <ActionButton :icon="EyeIcon" color="grey" @click="emit('detailClicked', item)" />
+          </div>
+        </template>
+      </Tabel>
     </template>
+
 
     <template #footer>
       <Pagination :currentPage="pasienStore.pagination.currentPage" :totalPages="totalPages"
@@ -30,6 +36,8 @@ import Card from '@/components/Card.vue'
 import Tabel from '@/components/Tabel.vue'
 import Pagination from '@/components/Pagination.vue'
 import Search from '../../components/Search.vue'
+import ActionButton from '@/components/ActionButton.vue'
+import { EyeIcon } from '@heroicons/vue/24/solid'
 
 const router = useRouter()
 const pasienStore = usePasienStore()

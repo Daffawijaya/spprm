@@ -50,23 +50,27 @@
 
         <!-- Kanan: Aksi -->
         <div class="w-fit flex flex-col gap-2 items-end">
-          <PrimaryButton color="orange" @click="editPasien">Edit
+          <PrimaryButton color="orange" @click="editPasien">
+            Edit
             <template #icon>
-              <ArrowRightStartOnRectangleIcon class="size-5" />
+              <PencilIcon class="size-4" />
             </template>
           </PrimaryButton>
-          <PrimaryButton color="red" @click="hapusPasien">Hapus
+
+          <PrimaryButton color="red" @click="hapusPasien">
+            Hapus
             <template #icon>
-              <ArrowRightStartOnRectangleIcon class="size-5" />
+              <TrashIcon class="size-4" />
             </template>
           </PrimaryButton>
+
           <!-- Dropdown Tambah Jadwal -->
           <div class="relative ">
             <button
               class="bg-[#ADDC8B] w-full text-sm text-white px-4 py-1 rounded-full flex items-center justify-between gap-2"
               @click="dropdownOpen = !dropdownOpen">
               Tambah Jadwal
-              <ArrowRightStartOnRectangleIcon class="size-5" />
+              <PlusIcon class="size-4" />
             </button>
 
             <div v-if="dropdownOpen" class="absolute mt-2 w-full bg-white border shadow rounded z-30">
@@ -89,10 +93,15 @@
       </div>
       <div v-else>
         <Tabel :headers="['Hari', 'Tanggal', 'Pukul', 'Jenis Terapi']"
-          :keys="['hari', 'tanggal_terapi', 'waktu', 'jenis_terapi']" :items="sortedJadwal" :actions="[
-            { label: 'Edit', event: 'edit', name: 'edit' },
-            { label: 'Hapus', event: 'hapus', name: 'hapus' }
-          ]" @edit="editJadwal" @hapus="hapusJadwal" />
+          :keys="['hari', 'tanggal_terapi', 'waktu', 'jenis_terapi']" :items="sortedJadwal" @edit="editJadwal"
+          @hapus="hapusJadwal">
+          <template #actions="{ item, emit }">
+            <div class="flex justify-center gap-2">
+              <ActionButton :icon="PencilIcon" color="orange"  @click="emit('edit', item)" />
+              <ActionButton :icon="TrashIcon" color="red" @click="emit('hapus', item)" />
+            </div>
+          </template>
+        </Tabel>
       </div>
     </template>
 
@@ -107,7 +116,8 @@ import { useJadwalStore } from '@/stores/jadwalStore'
 import Tabel from '@/components/Tabel.vue'
 import Card from '@/components/Card.vue' // 🔸 Import Card
 import PrimaryButton from '../../components/PrimaryButton.vue'
-import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/outline'
+import ActionButton from '@/components/ActionButton.vue'
+import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 const router = useRouter()
