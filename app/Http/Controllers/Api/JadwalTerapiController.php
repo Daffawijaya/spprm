@@ -10,9 +10,16 @@ use App\Models\JadwalTerapi;
 class JadwalTerapiController extends Controller
 {
     public function index(Pasien $pasien)
-    {
-        return $pasien->jadwalTerapis;
-    }
+{
+    $data = $pasien->jadwalTerapis->map(function ($jadwal) {
+        return array_merge(
+            $jadwal->toArray(),
+            ['waktu' => JadwalTerapi::sesiWaktu()[$jadwal->sesi] ?? null]
+        );
+    });
+
+    return response()->json($data);
+}
 
     public function store(Request $request, $pasien)
     {

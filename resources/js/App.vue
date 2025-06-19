@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex bg-[#EFF2F9]">
     <Sidebar />
 
     <div class="p-7 flex-1">

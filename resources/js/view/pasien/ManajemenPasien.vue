@@ -1,76 +1,113 @@
 <template>
-  <div class="p-4 space-y-6">
-    <h1 class="text-2xl font-bold">Manajemen Pasien: {{ pasien.nama }}</h1>
+  <Card>
+    <div>
+      <div class="flex flex-row md:flex-nowrap gap-x-6">
+        <!-- Kiri: Detail Pasien -->
+        <div class="flex-1">
+          <div class="flex flex-wrap gap-y-5 gap-x-6">
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Nama</p>
+              <p class="text-base">{{ pasien.nama }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Umur</p>
+              <p class="text-base">{{ pasien.umur }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Jenis Kelamin</p>
+              <p class="text-base">{{ pasien.jenis_kelamin }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">NIK</p>
+              <p class="text-base">{{ pasien.nik }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Alamat</p>
+              <p class="text-base">{{ pasien.alamat }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Telepon</p>
+              <p class="text-base">{{ pasien.no_telepon }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Jenis Pasien</p>
+              <p class="text-base">{{ pasien.jenis_pasien }}</p>
+            </div>
+            <div v-if="pasien.berlaku_hingga" class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Berlaku Hingga</p>
+              <p class="text-base">{{ pasien.berlaku_hingga }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Poli Asal</p>
+              <p class="text-base">{{ pasien.poli_asal }}</p>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <p class="uppercase text-[#969696] text-sm font-light">Riwayat</p>
+              <p class="text-base">{{ pasien.riwayat_medis }}</p>
+            </div>
+          </div>
+        </div>
 
-    <div class="bg-gray-100 p-4 rounded shadow">
-      <p><strong>Umur:</strong> {{ pasien.umur }}</p>
-      <p><strong>Jenis Kelamin:</strong> {{ pasien.jenis_kelamin }}</p>
-      <p><strong>NIK:</strong> {{ pasien.nik }}</p>
-      <p><strong>Alamat:</strong> {{ pasien.alamat }}</p>
-      <p><strong>Telepon:</strong> {{ pasien.no_telepon }}</p>
-      <p><strong>Jenis Pasien:</strong> {{ pasien.jenis_pasien }}</p>
-      <p v-if="pasien.berlaku_hingga"><strong>Berlaku Hingga:</strong> {{ pasien.berlaku_hingga }}</p>
-      <p><strong>Poli Asal:</strong> {{ pasien.poli_asal }}</p>
-      <p><strong>Riwayat:</strong> {{ pasien.riwayat_medis }}</p>
-      <div class="mt-4 flex gap-2">
-        <button @click="editPasien" class="bg-blue-500 text-white px-4 py-1 rounded">Edit</button>
-        <button @click="hapusPasien" class="bg-red-500 text-white px-4 py-1 rounded">Hapus</button>
+        <!-- Kanan: Aksi -->
+        <div class="w-fit flex flex-col gap-4 items-end">
+          <PrimaryButton color="orange" @click="editPasien">Edit
+            <template #icon>
+              <ArrowRightStartOnRectangleIcon class="size-5" />
+            </template>
+          </PrimaryButton>
+          <PrimaryButton color="red" @click="hapusPasien">Hapus
+            <template #icon>
+              <ArrowRightStartOnRectangleIcon class="size-5" />
+            </template>
+          </PrimaryButton>
+          <!-- Dropdown Tambah Jadwal -->
+          <div class="relative ">
+            <button
+              class="bg-[#ADDC8B] w-full text-sm text-white px-4 py-1 rounded-full flex items-center justify-between gap-2"
+              @click="dropdownOpen = !dropdownOpen">
+              Tambah Jadwal
+              <ArrowRightStartOnRectangleIcon class="size-5" />
+            </button>
+
+            <div v-if="dropdownOpen" class="absolute mt-2 w-full bg-white border shadow rounded z-30">
+              <ul>
+                <li v-for="jenis in jenisTerapiOptions" :key="jenis" @click.stop="pilihJenisTerapi(jenis)"
+                  class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                  {{ jenis }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <h2 class="text-xl font-semibold">Jadwal Terapi</h2>
-
-    <!-- Tombol & Dropdown -->
-    <div class="relative inline-block">
-      <button @click="dropdownOpen = !dropdownOpen" class="bg-green-500 text-white px-4 py-2 rounded">
-        Tambah Jadwal
-      </button>
-      <div v-if="dropdownOpen" class="absolute mt-2 bg-white border shadow rounded z-10">
-        <ul>
-          <li
-            v-for="jenis in jenisTerapiOptions"
-            :key="jenis"
-            @click="pilihJenisTerapi(jenis)"
-            class="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-          >
-            {{ jenis }}
-          </li>
-        </ul>
+    <!-- Tabel Jadwal -->
+    <template #table>
+      <div v-if="sortedJadwal.length === 0">
+        <p>Belum ada jadwal.</p>
       </div>
-    </div>
+      <div v-else>
+        <Tabel :headers="['Hari', 'Tanggal', 'Pukul', 'Jenis Terapi']"
+          :keys="['hari', 'tanggal_terapi', 'waktu', 'jenis_terapi']" :items="sortedJadwal" :actions="[
+            { label: 'Edit', event: 'edit', name: 'edit' },
+            { label: 'Hapus', event: 'hapus', name: 'hapus' }
+          ]" @edit="editJadwal" @hapus="hapusJadwal" />
+      </div>
+    </template>
 
-    <div v-if="sortedJadwal.length === 0">
-      <p>Belum ada jadwal.</p>
-    </div>
-    <table v-else class="table-auto border-collapse w-full border">
-      <thead>
-        <tr class="bg-gray-200">
-          <th class="border px-4 py-2">Jenis Terapi</th>
-          <th class="border px-4 py-2">Tanggal</th>
-          <th class="border px-4 py-2">Sesi</th>
-          <th class="border px-4 py-2">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="jadwal in sortedJadwal" :key="jadwal.id">
-          <td class="border px-4 py-2">{{ jadwal.jenis_terapi }}</td>
-          <td class="border px-4 py-2">{{ jadwal.tanggal_terapi }}</td>
-          <td class="border px-4 py-2">{{ jadwal.sesi }}</td>
-          <td class="border px-4 py-2">
-            <button @click="editJadwal(jadwal)" class="text-blue-600 hover:underline mr-2">Edit</button>
-            <button @click="hapusJadwal(jadwal.id)" class="text-red-600 hover:underline">Hapus</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  </Card>
 </template>
 
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { usePasienStore } from '@/stores/pasienStore'
 import { useJadwalStore } from '@/stores/jadwalStore'
+import Tabel from '@/components/Tabel.vue'
+import Card from '@/components/Card.vue' // 🔸 Import Card
+import PrimaryButton from '../../components/PrimaryButton.vue'
+import { ArrowRightStartOnRectangleIcon } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
 const router = useRouter()
@@ -79,6 +116,7 @@ const pasienStore = usePasienStore()
 const jadwalStore = useJadwalStore()
 
 const id = route.params.id
+const dropdownOpen = ref(false)
 
 onMounted(async () => {
   await pasienStore.getPasienById(id)
@@ -89,9 +127,23 @@ const pasien = computed(() => pasienStore.pasien)
 const jadwalList = computed(() => jadwalStore.jadwalList)
 
 const sortedJadwal = computed(() => {
-  return [...jadwalList.value].sort((a, b) => {
-    return new Date(a.tanggal_terapi) - new Date(b.tanggal_terapi)
+  const formatterHari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' })
+  const formatterTanggal = new Intl.DateTimeFormat('id-ID', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
   })
+
+  return [...jadwalList.value]
+    .sort((a, b) => new Date(a.tanggal_terapi) - new Date(b.tanggal_terapi))
+    .map(jadwal => {
+      const tanggalObj = new Date(jadwal.tanggal_terapi)
+      return {
+        ...jadwal,
+        hari: formatterHari.format(tanggalObj),
+        tanggal_terapi: formatterTanggal.format(tanggalObj)
+      }
+    })
 })
 
 const jenisTerapiOptions = [
@@ -101,8 +153,6 @@ const jenisTerapiOptions = [
   'Terapi Wicara',
   'Psikologis Klinis'
 ]
-
-const dropdownOpen = ref(false)
 
 const pilihJenisTerapi = (jenis) => {
   dropdownOpen.value = false
@@ -127,11 +177,14 @@ const hapusPasien = async () => {
 }
 
 const editJadwal = (jadwal) => {
-  router.push({ name: 'TambahEditJadwal', params: { pasienId: pasien.value.id, jadwalId: jadwal.id } })
+  router.push({
+    name: 'TambahEditJadwal',
+    params: { pasienId: pasien.value.id, jadwalId: jadwal.id }
+  })
 }
 
-const hapusJadwal = async (jadwalId) => {
+const hapusJadwal = async (jadwal) => {
   if (!confirm('Yakin hapus jadwal?')) return
-  await jadwalStore.deleteJadwal(pasien.value.id, jadwalId)
+  await jadwalStore.deleteJadwal(pasien.value.id, jadwal.id)
 }
 </script>
