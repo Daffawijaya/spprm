@@ -8,8 +8,8 @@
 
     <!-- Pagination di slot table (atau bisa di slot footer juga) -->
     <template #table>
-      <Tabel :headers="['Nama', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
-        :keys="['nama', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienStore.pasienList"
+      <Tabel :headers="['Nama', 'Nik', 'Umur', 'Jenis Kelamin', 'Poli Asal']"
+        :keys="['nama', 'nik', 'umur', 'jenis_kelamin', 'poli_asal']" :items="pasienStore.pasienList"
         :actions="[{ name: 'detail', label: 'Detail', event: 'detailClicked' }]" @detailClicked="goToManajemen">
         <template #actions="{ item, emit }">
           <div class="flex justify-center">

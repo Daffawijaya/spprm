@@ -10,7 +10,7 @@
         :class="{ 'with-right-bump': isActiveRoute(item.to) }">
         <router-link :to="item.to" :class="{
           'pl-5 text-[#4047F3]': isActiveRoute(item.to),
-          'pl-5 hover:text-[#4047F3]': !isActiveRoute(item.to)
+          'pl-5 hover:text-blue-200 transition duration-200': !isActiveRoute(item.to)
         }">
           {{ item.label }}
         </router-link>

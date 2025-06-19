@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <Card>
-      <template #header>
-        Pilih Tanggal untuk {{ jenisTerapi }}
-      </template>
+  <Card>
+    <template #header>
+      Pilih Tanggal untuk {{ jenisTerapi }}
+    </template>
 
-      <template #table>
-        <TanggalKalender :tahun="tahun" :bulan="bulan" :jenisTerapi="jenisTerapi" :tanggalList="bulanStore.tanggalList"
-          @pilih-tanggal="pilihTanggal" @next-month="nextMonth" @prev-month="prevMonth" />
-      </template>
-    </Card>
-  </div>
+    <template #table>
+      <TanggalKalender :tahun="tahun" :bulan="bulan" :jenisTerapi="jenisTerapi" :tanggalList="bulanStore.tanggalList"
+        @pilih-tanggal="pilihTanggal" @next-month="nextMonth" @prev-month="prevMonth" />
+    </template>
+  </Card>
 </template>
 
 <script setup>

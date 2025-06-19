@@ -41,7 +41,7 @@
               <p class="uppercase text-[#969696] text-sm font-light">Poli Asal</p>
               <p class="text-base">{{ pasien.poli_asal }}</p>
             </div>
-            <div class="flex flex-col gap-y-2">
+            <div v-if="pasien.riwayat_medis" class="flex flex-col gap-y-2 opacity-100">
               <p class="uppercase text-[#969696] text-sm font-light">Riwayat</p>
               <p class="text-base">{{ pasien.riwayat_medis }}</p>
             </div>
@@ -97,7 +97,7 @@
           @hapus="hapusJadwal">
           <template #actions="{ item, emit }">
             <div class="flex justify-center gap-2">
-              <ActionButton :icon="PencilIcon" color="orange"  @click="emit('edit', item)" />
+              <ActionButton :icon="PencilIcon" color="orange" @click="emit('edit', item)" />
               <ActionButton :icon="TrashIcon" color="red" @click="emit('hapus', item)" />
             </div>
           </template>
@@ -139,10 +139,10 @@ const jadwalList = computed(() => jadwalStore.jadwalList)
 const sortedJadwal = computed(() => {
   const formatterHari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' })
   const formatterTanggal = new Intl.DateTimeFormat('id-ID', {
-    day: '2-digit',
-    month: '2-digit',
+    day: 'numeric',
+    month: 'long',
     year: 'numeric'
-  })
+  });
 
   return [...jadwalList.value]
     .sort((a, b) => new Date(a.tanggal_terapi) - new Date(b.tanggal_terapi))

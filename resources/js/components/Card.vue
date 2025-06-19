@@ -4,7 +4,7 @@
             <slot name="header"></slot>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden py-8 gap-y-4">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden py-8 space-y-3">
 
             <!-- Main content slot -->
             <div class="px-8">
