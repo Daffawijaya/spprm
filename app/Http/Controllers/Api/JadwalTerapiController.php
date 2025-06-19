@@ -105,7 +105,7 @@ class JadwalTerapiController extends Controller
         $request->validate([
             'tahun' => 'required|integer|min:2020',
             'bulan' => 'required|integer|min:1|max:12',
-            'jenis_terapi' => 'required|string'
+            'jenis_terapi' => 'nullable|string'
         ]);
 
         $tahun = $request->input('tahun');
