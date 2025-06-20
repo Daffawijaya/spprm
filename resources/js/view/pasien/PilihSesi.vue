@@ -13,27 +13,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
+import { useBulanStore } from '@/stores/bulanStore'
 
 const router = useRouter()
 const route = useRoute()
 const { pasienId, jenisTerapi, tanggal } = route.params
 
-const statusList = ref([])
+const bulanStore = useBulanStore()
 
-const fetchStatus = async () => {
-  const res = await axios.get('/api/status/tanggal', {
-    params: {
-      tanggal,
-      jenis_terapi: jenisTerapi
-    }
-  })
-  statusList.value = res.data.sesi
-}
+onMounted(async () => {
+  bulanStore.setJenisTerapi(jenisTerapi)
+  await bulanStore.fetchStatusTanggal(tanggal)
+})
 
-onMounted(fetchStatus)
+const statusList = computed(() => bulanStore.statusSesi)
 
 const pilihSesi = async (sesi) => {
   try {
@@ -51,3 +47,4 @@ const pilihSesi = async (sesi) => {
   }
 }
 </script>
+
