@@ -9,17 +9,24 @@ use App\Models\JadwalTerapi;
 
 class JadwalTerapiController extends Controller
 {
-    public function index(Pasien $pasien)
-{
-    $data = $pasien->jadwalTerapis->map(function ($jadwal) {
-        return array_merge(
-            $jadwal->toArray(),
-            ['waktu' => JadwalTerapi::sesiWaktu()[$jadwal->sesi] ?? null]
-        );
-    });
+    public function index(Request $request, Pasien $pasien)
+    {
+        $perPage = $request->input('per_page', 5);
 
-    return response()->json($data);
-}
+        $data = JadwalTerapi::where('pasien_id', $pasien->id)
+            ->orderBy('tanggal_terapi', 'asc')
+            ->paginate($perPage)
+            ->through(function ($jadwal) {
+                return array_merge(
+                    $jadwal->toArray(),
+                    ['waktu' => JadwalTerapi::sesiWaktu()[$jadwal->sesi] ?? null]
+                );
+            });
+
+        return response()->json($data);
+    }
+
+
 
     public function store(Request $request, $pasien)
     {

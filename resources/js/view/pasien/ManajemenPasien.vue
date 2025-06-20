@@ -105,6 +105,9 @@
         </Tabel>
       </div>
     </template>
+    <template #footer>
+      <Pagination :currentPage="pagination.current_page" :totalPages="pagination.last_page" @page-change="changePage" />
+    </template>
 
   </Card>
 </template>
@@ -119,6 +122,7 @@ import Card from '@/components/Card.vue' // 🔸 Import Card
 import PrimaryButton from '../../components/PrimaryButton.vue'
 import ActionButton from '@/components/ActionButton.vue'
 import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/vue/24/solid'
+import Pagination from '../../components/Pagination.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -136,6 +140,8 @@ onMounted(async () => {
 
 const pasien = computed(() => pasienStore.pasien)
 const jadwalList = computed(() => jadwalStore.jadwalList)
+const pagination = computed(() => jadwalStore.pagination)
+
 
 const sortedJadwal = computed(() => {
   const formatterHari = new Intl.DateTimeFormat('id-ID', { weekday: 'long' })
@@ -197,5 +203,12 @@ const editJadwal = (jadwal) => {
 const hapusJadwal = async (jadwal) => {
   if (!confirm('Yakin hapus jadwal?')) return
   await jadwalStore.deleteJadwal(pasien.value.id, jadwal.id)
+}
+
+const currentPage = ref(1)
+
+const changePage = async (page) => {
+  currentPage.value = page
+  await jadwalStore.fetchByPasien(pasien.value.id, page)
 }
 </script>

@@ -10,7 +10,7 @@ export const usePasienStore = defineStore('pasien', {
     error: null,
     pagination: {
       currentPage: 1,
-      perPage: 10,
+      perPage: 5,
       total: 0
     }
   }),
@@ -18,7 +18,7 @@ export const usePasienStore = defineStore('pasien', {
 
   actions: {
     // GET
-    async fetchPasien({ page = 1, perPage = 10, search = '' } = {}) {
+    async fetchPasien({ page = 1, perPage = 5, search = '' } = {}) {
       this.loading = true
       this.error = null
       try {
