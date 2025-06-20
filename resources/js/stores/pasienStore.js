@@ -4,7 +4,12 @@ import axios from 'axios'
 
 export const usePasienStore = defineStore('pasien', {
   state: () => ({
+
     pasienList: [],
+    pasienResponse: {
+      jadwal: {},
+      pasien: []
+    },
     pasien: {},
     loading: false,
     error: null,
@@ -97,7 +102,6 @@ export const usePasienStore = defineStore('pasien', {
       }
     },
 
-
     // DELETE
     async deletePasien(id) {
       this.loading = true
@@ -108,6 +112,21 @@ export const usePasienStore = defineStore('pasien', {
       } catch (err) {
         this.error = err
         console.error('Gagal hapus pasien:', err)
+      } finally {
+        this.loading = false
+      }
+    },
+    async fetchPasienByTanggalSesi(tanggal, sesi) {
+      this.loading = true
+      this.error = null
+      try {
+        const response = await axios.get('/api/pasien/by-jadwal', {
+          params: { tanggal, sesi }
+        })
+        this.pasienResponse = response.data
+      } catch (err) {
+        this.error = err
+        console.error('Gagal fetch pasien berdasarkan sesi:', err)
       } finally {
         this.loading = false
       }

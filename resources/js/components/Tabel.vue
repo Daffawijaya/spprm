@@ -1,6 +1,6 @@
 <!-- Tabel.vue -->
 <template>
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto overflow-hidden">
     <table class="w-full table-auto border-y border-[#E8EDF0] text-left">
       <thead class="bg-white">
         <tr class="border-b border-[#E8EDF0]">

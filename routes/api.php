@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\JadwalTerapiController;
 
+Route::get('pasien/by-jadwal', [PasienController::class, 'byTanggalSesi']);
+
 Route::apiResource('pasien', PasienController::class);
 
 Route::get('pasien/{pasien}/jadwal', [JadwalTerapiController::class, 'index']);

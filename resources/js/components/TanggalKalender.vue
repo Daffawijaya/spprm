@@ -1,5 +1,5 @@
 <template>
-        <div class="flex justify-center items-center gap-x-3 mb-4">
+        <div class="flex justify-center items-center gap-x-3 my-4">
             <button @click="$emit('prev-month')" class="px-3 py-1 bg-gray-100 rounded"><</button>
             <div class="font-semibold text-lg">{{ namaBulan(bulan) }} {{ tahun }}</div>
             <button @click="$emit('next-month')" class="px-3 py-1 bg-gray-100 rounded">></button>

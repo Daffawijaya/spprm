@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
+use Illuminate\Support\Carbon;
+use App\Models\JadwalTerapi;
 
 class PasienController extends Controller
 {
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 5);
 
         $query = Pasien::query();
 
@@ -100,5 +102,51 @@ class PasienController extends Controller
     {
         Pasien::destroy($id);
         return response()->json(['message' => 'Pasien dihapus']);
+    }
+
+
+
+    public function byTanggalSesi(Request $request)
+    {
+        $tanggal = $request->input('tanggal');
+        $sesi = $request->input('sesi');
+
+        if (!$tanggal || !$sesi) {
+            return response()->json([
+                'message' => 'Tanggal dan sesi wajib diisi.'
+            ], 400);
+        }
+
+        $pasienList = Pasien::whereHas('jadwalTerapis', function ($query) use ($tanggal, $sesi) {
+            $query->where('tanggal_terapi', $tanggal)
+                ->where('sesi', $sesi);
+        })
+            ->with(['jadwalTerapis' => function ($query) use ($tanggal, $sesi) {
+                $query->where('tanggal_terapi', $tanggal)
+                    ->where('sesi', $sesi);
+            }])
+            ->get();
+
+        $waktu = JadwalTerapi::sesiWaktu()[$sesi] ?? '-';
+
+        $data = [
+            'jadwal' => [
+                'hari' => \Carbon\Carbon::parse($tanggal)->isoFormat('dddd'),
+                'tanggal' => $tanggal,
+                'waktu' => $waktu,
+                'jenis_terapi' => optional($pasienList->first()?->jadwalTerapis->first())->jenis_terapi ?? '-',
+            ],
+            'pasien' => $pasienList->map(function ($pasien) {
+                return [
+                    'id' => $pasien->id,
+                    'nama' => $pasien->nama,
+                    'umur' => $pasien->umur,
+                    'poli_asal' => $pasien->poli_asal,
+                    'jenis_pasien' => $pasien->jenis_pasien,
+                ];
+            }),
+        ];
+
+        return response()->json($data);
     }
 }

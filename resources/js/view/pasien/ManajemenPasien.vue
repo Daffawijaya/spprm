@@ -6,49 +6,10 @@
     <div class="flex flex-row md:flex-nowrap gap-x-6">
       <!-- Kiri: Detail Pasien -->
       <div class="flex-1">
-        <div class="flex flex-wrap gap-y-5 gap-x-6">
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Nama</p>
-            <p class="text-base">{{ pasien.nama }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Umur</p>
-            <p class="text-base">{{ pasien.umur }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Jenis Kelamin</p>
-            <p class="text-base">{{ pasien.jenis_kelamin }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">NIK</p>
-            <p class="text-base">{{ pasien.nik }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Alamat</p>
-            <p class="text-base">{{ pasien.alamat }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Telepon</p>
-            <p class="text-base">{{ pasien.no_telepon }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Jenis Pasien</p>
-            <p class="text-base">{{ pasien.jenis_pasien }}</p>
-          </div>
-          <div v-if="pasien.berlaku_hingga" class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Berlaku Hingga</p>
-            <p class="text-base">{{ pasien.berlaku_hingga }}</p>
-          </div>
-          <div class="flex flex-col gap-y-2">
-            <p class="uppercase text-[#969696] text-sm font-light">Poli Asal</p>
-            <p class="text-base">{{ pasien.poli_asal }}</p>
-          </div>
-          <div v-if="pasien.riwayat_medis" class="flex flex-col gap-y-2 opacity-100">
-            <p class="uppercase text-[#969696] text-sm font-light">Riwayat</p>
-            <p class="text-base">{{ pasien.riwayat_medis }}</p>
-          </div>
-        </div>
+        <InfoGrid :items="infoItems" />
       </div>
+
+
 
       <!-- Kanan: Aksi -->
       <div class="w-fit flex flex-col gap-2 items-end">
@@ -123,6 +84,7 @@ import PrimaryButton from '../../components/PrimaryButton.vue'
 import ActionButton from '@/components/ActionButton.vue'
 import { PencilIcon, TrashIcon, PlusIcon } from '@heroicons/vue/24/solid'
 import Pagination from '../../components/Pagination.vue'
+import InfoGrid from '@/components/InfoGrid.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -211,4 +173,39 @@ const changePage = async (page) => {
   currentPage.value = page
   await jadwalStore.fetchByPasien(pasien.value.id, page)
 }
+
+const infoItems = computed(() => {
+  const tgl = pasien.value.berlaku_hingga
+  const formatTanggal = (tglStr) => {
+    if (!tglStr) return '-'
+    const date = new Date(tglStr)
+    return new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(date)
+  }
+
+  const items = [
+    { label: 'Nama', value: pasien.value.nama },
+    { label: 'Umur', value: pasien.value.umur },
+    { label: 'Jenis Kelamin', value: pasien.value.jenis_kelamin },
+    { label: 'NIK', value: pasien.value.nik },
+    { label: 'Alamat', value: pasien.value.alamat },
+    { label: 'Telepon', value: pasien.value.no_telepon },
+    { label: 'Jenis Pasien', value: pasien.value.jenis_pasien },
+    { label: 'Poli Asal', value: pasien.value.poli_asal }
+  ]
+
+  if (pasien.value.berlaku_hingga) {
+    items.push({ label: 'Berlaku Hingga', value: formatTanggal(tgl) })
+  }
+
+  if (pasien.value.riwayat_medis) {
+    items.push({ label: 'Riwayat', value: pasien.value.riwayat_medis })
+  }
+
+  return items
+})
+
 </script>

@@ -4,10 +4,10 @@
             <slot name="header"></slot>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden py-8 space-y-3">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden space-y-6">
 
             <!-- Main content slot -->
-            <div class="px-8">
+            <div v-if="$slots.default" class="px-8 pt-8">
                 <slot></slot>
             </div>
 
@@ -16,7 +16,7 @@
             </div>
 
             <!-- Footer slot -->
-            <div v-if="$slots.footer" class="px-8">
+            <div v-if="$slots.footer" class="px-8 pb-8">
                 <slot name="footer"></slot>
 
             </div>

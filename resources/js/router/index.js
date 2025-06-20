@@ -11,6 +11,7 @@ import EditPasien from '../view/pasien/EditPasien.vue';
 import PilihTanggal from '../view/pasien/PilihTanggal.vue';
 import PilihSesi from '../view/pasien/PilihSesi.vue';
 import SesiTerapi from '../view/jadwal/SesiTerapi.vue';
+import PasienSesi from '../view/jadwal/PasienSesi.vue';
 
 const routes = [
   { path: '/', name: 'Dashboard', component: Dashboard },
@@ -28,6 +29,7 @@ const routes = [
 
   { path: '/jadwal-terapi', name: 'JadwalTerapi', component: JadwalTerapi },
   { path: '/jadwal-terapi/sesi/:tanggal', name: 'SesiTerapi', component: SesiTerapi },
+  { path: '/jadwal-terapi/sesi/:tanggal/pasien', name: 'PasienBySesi', component: PasienSesi }
 ];
 
 const router = createRouter({
