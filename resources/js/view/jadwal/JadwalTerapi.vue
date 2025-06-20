@@ -57,8 +57,8 @@ const prevMonth = () => {
 
 const pilihTanggal = (tanggal) => {
   router.push({
-    name: 'PilihSesi',
-    params: { pasienId, jenisTerapi, tanggal }
+    name: 'SesiTerapi',
+    params: { tanggal }
   })
 }
 </script>

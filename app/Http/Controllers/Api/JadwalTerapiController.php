@@ -173,7 +173,7 @@ class JadwalTerapiController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'jenis_terapi' => 'required|string'
+            'jenis_terapi' => 'nullable|string'
         ]);
 
         $tanggal = $request->input('tanggal');

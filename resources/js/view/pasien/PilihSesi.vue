@@ -17,12 +17,14 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 import { useBulanStore } from '@/stores/bulanStore'
+import { useJadwalStore } from '@/stores/jadwalStore'
 
 const router = useRouter()
 const route = useRoute()
 const { pasienId, jenisTerapi, tanggal } = route.params
 
 const bulanStore = useBulanStore()
+const jadwalStore = useJadwalStore()
 
 onMounted(async () => {
   bulanStore.setJenisTerapi(jenisTerapi)
@@ -33,18 +35,21 @@ const statusList = computed(() => bulanStore.statusSesi)
 
 const pilihSesi = async (sesi) => {
   try {
-    await axios.post(`/api/pasien/${pasienId}/jadwal`, {
+    const response = await jadwalStore.createJadwal(pasienId, {
       jenis_terapi: jenisTerapi,
       tanggal_terapi: tanggal,
       sesi
     })
 
-    alert('Jadwal berhasil ditambahkan!')
-    router.push({ name: 'ManajemenPasien', params: { id: pasienId } })
+    if (response.success) {
+      alert('Jadwal berhasil ditambahkan!')
+      router.push({ name: 'ManajemenPasien', params: { id: pasienId } })
+    } else {
+      alert(response.message)
+    }
   } catch (error) {
     const pesan = error.response?.data?.error || 'Terjadi kesalahan.'
     alert(pesan)
   }
 }
 </script>
-

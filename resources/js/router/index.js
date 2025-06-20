@@ -10,10 +10,11 @@ import TambahEditJadwal from '../view/pasien/TambahEditJadwal.vue';
 import EditPasien from '../view/pasien/EditPasien.vue';
 import PilihTanggal from '../view/pasien/PilihTanggal.vue';
 import PilihSesi from '../view/pasien/PilihSesi.vue';
+import SesiTerapi from '../view/jadwal/SesiTerapi.vue';
 
 const routes = [
   { path: '/', name: 'Dashboard', component: Dashboard },
-  { path: '/jadwal-terapi', name: 'JadwalTerapi', component: JadwalTerapi },
+
   { path: '/daftar-pasien', name: 'DaftarPasien', component: DaftarPasien },
   { path: '/tambah-pasien', name: 'TambahPasien', component: TambahPasien },
   { path: '/reschedule', name: 'Reschedule', component: Reschedule },
@@ -22,9 +23,11 @@ const routes = [
 
   { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal', name: 'PilihTanggal', component: PilihTanggal, props: true },
   { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal/:tanggal/sesi', name: 'PilihSesi', component: PilihSesi, props: true },
-
   { path: '/daftar-pasien/manajemen/:pasienId/jadwal/:jadwalId?', name: 'TambahEditJadwal', component: TambahEditJadwal, props: true },
   { path: '/daftar-pasien/manajemen/:id/edit', name: 'EditPasien', component: EditPasien, props: true },
+
+  { path: '/jadwal-terapi', name: 'JadwalTerapi', component: JadwalTerapi },
+  { path: '/jadwal-terapi/sesi/:tanggal', name: 'SesiTerapi', component: SesiTerapi },
 ];
 
 const router = createRouter({
