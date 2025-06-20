@@ -1,23 +1,28 @@
 <template>
   <div>
-    <h2>Pilih Sesi - {{ tanggal }}</h2>
-    <ul>
-      <li v-for="sesi in statusList" :key="sesi.sesi">
-        <button @click="pilihSesi(sesi.sesi)" :disabled="sesi.status === 'penuh'">
-          Sesi {{ sesi.sesi }} -
-          <strong>{{ sesi.status }} ({{ sesi.kuota }})</strong>
-        </button>
-      </li>
-    </ul>
+    <h2 class="text-xl font-semibold mb-4">Pilih Sesi</h2>
+
+    <Tabel :headers="['Hari', 'Tanggal', 'Waktu', 'Kuota', 'Status']"
+      :keys="['hari', 'tanggal', 'waktu', 'kuota', 'status']" :items="tabelData">
+      <template #actions="{ item }">
+        <PrimaryButton :color="item.status === 'penuh' ? 'gray' : 'green'" :block="false"
+          class="disabled:bg-gray-300 disabled:cursor-not-allowed" :disabled="item.status === 'penuh'"
+          @click="pilihSesi(item.sesi)">
+          Pilih
+        </PrimaryButton>
+      </template>
+
+    </Tabel>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import axios from 'axios'
 import { useBulanStore } from '@/stores/bulanStore'
 import { useJadwalStore } from '@/stores/jadwalStore'
+import Tabel from '@/components/Tabel.vue'
+import PrimaryButton from '../../components/PrimaryButton.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -32,6 +37,22 @@ onMounted(async () => {
 })
 
 const statusList = computed(() => bulanStore.statusSesi)
+
+const formatTanggalIndo = (tanggalStr) => {
+  const options = { day: 'numeric', month: 'long', year: 'numeric' }
+  return new Date(tanggalStr).toLocaleDateString('id-ID', options)
+}
+
+const tabelData = computed(() =>
+  statusList.value.map(sesi => ({
+    sesi: sesi.sesi,
+    hari: sesi.hari,
+    tanggal: formatTanggalIndo(sesi.tanggal), // ⬅️ ubah format di sini
+    waktu: sesi.waktu,
+    kuota: sesi.kuota,
+    status: sesi.status
+  }))
+)
 
 const pilihSesi = async (sesi) => {
   try {

@@ -180,6 +180,9 @@ class JadwalTerapiController extends Controller
         $jenisTerapiInput = $request->input('jenis_terapi');
         $response = [];
 
+        $hari = \Carbon\Carbon::parse($tanggal)->translatedFormat('l'); // e.g., "Senin"
+        $sesiWaktu = \App\Models\JadwalTerapi::sesiWaktu();
+
         foreach (range(1, 5) as $sesi) {
             $jadwal = JadwalTerapi::where('tanggal_terapi', $tanggal)
                 ->where('sesi', $sesi)
@@ -188,7 +191,6 @@ class JadwalTerapiController extends Controller
             $jumlah = $jadwal->count();
             $jenisTerapis = $jadwal->pluck('jenis_terapi')->unique();
 
-            // FIX: case-insensitive comparison
             $jenisSudahAda = $jenisTerapis
                 ->map(fn($val) => strtolower($val))
                 ->contains(strtolower($jenisTerapiInput));
@@ -203,6 +205,9 @@ class JadwalTerapiController extends Controller
 
             $response[] = [
                 'sesi' => $sesi,
+                'hari' => $hari,
+                'tanggal' => $tanggal,
+                'waktu' => $sesiWaktu[$sesi] ?? '-',
                 'kuota' => "{$jumlah}/5",
                 'status' => $status
             ];

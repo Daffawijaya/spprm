@@ -20,7 +20,7 @@
             :style="{ width: colWidth }">
             {{ item[key] }}
           </td>
-          <td v-if="$slots.actions" class="px-8 py-5 text-center">
+          <td v-if="$slots.actions" class="px-8 py-5 text-center flex justify-center">
             <slot name="actions" :item="item" :emit="$emit" />
           </td>
         </tr>
