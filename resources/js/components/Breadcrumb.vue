@@ -1,9 +1,9 @@
 <template>
   <nav class="text-sm text-gray-500">
-    <span v-for="(segment, index) in segments" :key="index">
+    <span v-for="(segment, index) in formattedSegments" :key="index">
       <span v-if="index !== 0"> &gt; </span>
       <span class="capitalize">
-        {{ formatSegment(segment) }}
+        {{ segment }}
       </span>
     </span>
   </nav>
@@ -13,16 +13,19 @@
 export default {
   name: 'Breadcrumb',
   computed: {
-    segments() {
-      return this.$route.path.replace(/^\/+/, "").split("/");
+    formattedSegments() {
+      const path = this.$route.path.replace(/^\/+/, "")
+      if (!path) return ['Dashboard']
+
+      return path.split("/").map(this.formatSegment)
     }
   },
   methods: {
     formatSegment(text) {
       return text
-        .replace(/-/g, " ") // Strip jadi spasi
-        .replace(/\b\w/g, c => c.toUpperCase()); // Kapital tiap kata
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, c => c.toUpperCase())
     }
   }
-};
+}
 </script>

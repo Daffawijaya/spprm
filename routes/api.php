@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\JadwalTerapiController;
+
+Route::get('/dashboard-summary', [DashboardController::class, 'summary']);
 
 Route::get('pasien/by-jadwal', [PasienController::class, 'byTanggalSesi']);
 
@@ -17,3 +20,4 @@ Route::delete('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class,
 // Endpoint tambahan
 Route::get('status/bulan', [JadwalTerapiController::class, 'statusBulan']);
 Route::get('status/tanggal', [JadwalTerapiController::class, 'statusTanggal']);
+

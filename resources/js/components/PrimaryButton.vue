@@ -21,7 +21,11 @@ const colorClass = computed(() => {
     return {
         green: 'bg-[#ADDC8B]',
         red: 'bg-red-500',
-        orange: 'bg-[#FF7D3F]'
+        orange: 'bg-[#FF7D3F]',
+        grey: 'bg-[#CCCCCC]',
+        yellow: 'bg-[#FFAC04]',
+        purple: 'bg-[#D17AAA]',
+        sky: 'bg-[#6CB4EE]',
     }[props.color] || 'bg-[#ADDC8B]'
 })
 </script>

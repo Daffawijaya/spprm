@@ -51,7 +51,7 @@
     <!-- Tabel Jadwal -->
     <template #table>
       <div v-if="sortedJadwal.length === 0">
-        <p>Belum ada jadwal.</p>
+        <p class="flex items-center justify-center py-8">Belum ada jadwal.</p>
       </div>
       <div v-else>
         <Tabel :headers="['Hari', 'Tanggal', 'Pukul', 'Jenis Terapi']"

@@ -1,27 +1,31 @@
 <template>
-    <div>
-        <h2 class="text-xl font-semibold mb-4">Pilih Sesi</h2>
+    <Card>
+        <template #header>
+            <h2 class="text-xl font-semibold">Pilih Sesi</h2>
+        </template>
 
-        <Tabel :headers="['Hari', 'Tanggal', 'Waktu', 'Kuota']" :keys="['hari', 'tanggal', 'waktu', 'kuota']"
-            :items="tabelData">
-            <template #actions="{ item }">
-                <PrimaryButton :color="item.status === 'penuh' ? 'gray' : 'green'" :block="false"
-                    class="disabled:bg-gray-300 disabled:cursor-not-allowed" :disabled="item.status === 'penuh'"
-                    @click="pilihSesi(item.sesi)">
-                    Pilih
-                </PrimaryButton>
-            </template>
-
-        </Tabel>
-    </div>
+        <template #table>
+            <Tabel :headers="['Hari', 'Tanggal', 'Waktu', 'Kuota']" :keys="['hari', 'tanggal', 'waktu', 'kuota']"
+                :items="tabelData">
+                <template #actions="{ item }">
+                    <PrimaryButton :color="item.status === 'penuh' ? 'gray' : 'green'" :block="false"
+                        class="disabled:bg-gray-300 disabled:cursor-not-allowed" :disabled="item.status === 'penuh'"
+                        @click="pilihSesi(item.sesi)">
+                        Pilih
+                    </PrimaryButton>
+                </template>
+            </Tabel>
+        </template>
+    </Card>
 </template>
 
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useBulanStore } from '@/stores/bulanStore'
+import Card from '@/components/Card.vue'
 import Tabel from '@/components/Tabel.vue'
-import PrimaryButton from '../../components/PrimaryButton.vue'
+import PrimaryButton from '@/components/PrimaryButton.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -45,7 +49,7 @@ const tabelData = computed(() =>
     statusList.value.map(sesi => ({
         sesi: sesi.sesi,
         hari: sesi.hari,
-        tanggal: formatTanggalIndo(sesi.tanggal), // ⬅️ ubah format di sini
+        tanggal: formatTanggalIndo(sesi.tanggal),
         waktu: sesi.waktu,
         kuota: sesi.kuota,
         status: sesi.status
