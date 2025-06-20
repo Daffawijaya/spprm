@@ -11,6 +11,10 @@
                 <slot></slot>
             </div>
 
+            <div v-if="$slots.form" class="px-8 py-8">
+                <slot name="form"></slot>
+            </div>
+
             <div v-if="$slots.table">
                 <slot name="table"></slot>
             </div>

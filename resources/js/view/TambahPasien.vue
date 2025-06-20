@@ -1,20 +1,21 @@
 <template>
-  <div>
-    <h1>Tambah Pasien</h1>
-
-    <Form :form="form" :onSubmit="kirimData" />
-
-    <!-- Hapus ini kalau mau alert aja -->
-    <!-- <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p> -->
-  </div>
+  <Card>
+    <template #header>
+      Tambah Pasien
+    </template>
+    <template #form>
+      <Form :form="form" :onSubmit="kirimData" />
+    </template>
+  </Card>
 </template>
 
 <script>
 import axios from 'axios'
 import Form from '../components/Form.vue'
+import Card from '../components/Card.vue'
 
 export default {
-  components: { Form },
+  components: { Form, Card },
   data() {
     return {
       form: {
@@ -49,7 +50,7 @@ export default {
         if (err.response && err.response.status === 422) {
           const errors = err.response.data.errors
           const firstError = Object.values(errors)[0][0]
-          alert(firstError) // ganti ini jadi alert
+          alert(firstError)
         } else {
           alert('Gagal menyimpan data.')
           this.errorMessage = 'Gagal menyimpan data.'
