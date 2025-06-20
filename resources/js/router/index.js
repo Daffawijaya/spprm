@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from '../view/Dashboard.vue';
-import JadwalTerapi from '../view/JadwalTerapi.vue';
+import JadwalTerapi from '../view/jadwal/JadwalTerapi.vue';
 import DaftarPasien from '../view/pasien/DaftarPasien.vue';
 import TambahPasien from '../view/TambahPasien.vue';
 import Reschedule from '../view/Reschedule.vue';

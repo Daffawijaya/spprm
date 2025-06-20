@@ -6,12 +6,12 @@
       <p class="font-black text-lg">Parikesit</p>
     </div>
     <ul class="pl-3">
-      <li v-for="item in menuItems" :key="item.to" class="relative py-3 text-sm"
+      <li v-for="item in menuItems" :key="item.to" class="relative py-3 text-[13px]"
         :class="{ 'with-right-bump': isActiveRoute(item.to) }">
         <router-link :to="item.to" :class="{
-          'pl-5 text-[#4047F3]': isActiveRoute(item.to),
-          'pl-5 hover:text-blue-200 transition duration-200': !isActiveRoute(item.to)
-        }">
+          'pl-4 text-[#4047F3] flex gap-x-2': isActiveRoute(item.to),
+          'pl-4 hover:text-blue-200 transition duration-200 flex gap-x-2': !isActiveRoute(item.to)
+        }"><component :is="item.icon" class="w-4 h-4"/>
           {{ item.label }}
         </router-link>
       </li>
@@ -21,16 +21,24 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
+import {
+  HomeIcon,
+  CalendarDaysIcon,
+  UsersIcon,
+  UserPlusIcon,
+  ArrowPathIcon,
+  ChatBubbleLeftRightIcon
+} from '@heroicons/vue/24/outline'
 
 const route = useRoute()
 
 const menuItems = [
-  { to: '/', label: 'Dashboard' },
-  { to: '/jadwal-terapi', label: 'Jadwal Terapi' },
-  { to: '/daftar-pasien', label: 'Daftar Pasien' },
-  { to: '/tambah-pasien', label: 'Tambah Pasien' },
-  { to: '/reschedule', label: 'Reschedule' },
-  { to: '/qa', label: 'Q&A' }
+  { to: '/', label: 'Dashboard', icon: HomeIcon },
+  { to: '/jadwal-terapi', label: 'Jadwal Terapi', icon: CalendarDaysIcon },
+  { to: '/daftar-pasien', label: 'Daftar Pasien', icon: UsersIcon },
+  { to: '/tambah-pasien', label: 'Tambah Pasien', icon: UserPlusIcon },
+  { to: '/reschedule', label: 'Reschedule', icon: ArrowPathIcon },
+  { to: '/qa', label: 'Q&A', icon: ChatBubbleLeftRightIcon },
 ]
 
 function isActiveRoute(path) {

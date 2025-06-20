@@ -2,11 +2,11 @@
   <Card>
     
       <template #header>
-        Pilih Tanggal untuk {{ jenisTerapi }}
+        Jadwal Terapi
       </template>
 
       <template #table>
-        <TanggalKalender :tahun="tahun" :bulan="bulan" :jenisTerapi="jenisTerapi" :tanggalList="bulanStore.tanggalList"
+        <TanggalKalender :tahun="tahun" :bulan="bulan" :tanggalList="bulanStore.tanggalList"
           @pilih-tanggal="pilihTanggal" @next-month="nextMonth" @prev-month="prevMonth" />
       </template>
   </Card>
