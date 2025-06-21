@@ -20,7 +20,7 @@
             </Tabel>
 
             <p v-if="pasienStore.loading" class="mt-4 text-gray-500">Memuat data pasien...</p>
-            <p v-if="!pasienStore.loading && tabelData.length === 0" class="mt-4 text-gray-500">
+            <p v-if="!pasienStore.loading && tabelData.length === 0" class="py-20 flex items-center justify-center">
                 Tidak ada pasien di sesi ini.
             </p>
         </template>

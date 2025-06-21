@@ -50,7 +50,7 @@
     <div>
       <label class="block text-sm font-semibold text-gray-700 mb-1">Jenis Pasien:</label>
       <select v-model="form.jenis_pasien" required
-        class="w-full rounded-full bg-[#F3F5FD] text-gray-800 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ADDC8B]">
+        class="w-full rounded-full bg-[#F3F5FD] text-gray-800 px-9 py-2 focus:outline-none focus:ring-2 focus:ring-[#ADDC8B]">
         <option value="">Pilih jenis pasien</option>
         <option value="BPJS">BPJS</option>
         <option value="Mandiri">Mandiri</option>

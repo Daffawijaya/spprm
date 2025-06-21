@@ -2,8 +2,8 @@
 
   <nav class="bg-[#4047F3] w-48 min-h-screen  pt-8 text-white space-y-22">
     <div class="flex flex-row items-center gap-x-3 justify-center">
-      <img src="http://localhost:8000/image/parikesit.png" alt="Foto Profil" class="w-10 h-10" />
-      <p class="font-black text-lg">Parikesit</p>
+      <img src="http://localhost:8000/image/parikesit.png" alt="Foto Profil" class="w-8 h-8" />
+      <p class="font-black text-lg">TerapiKu</p>
     </div>
     <ul class="pl-3">
       <li v-for="item in menuItems" :key="item.to" class="relative py-3 text-[13px]"
@@ -33,7 +33,7 @@ import {
 const route = useRoute()
 
 const menuItems = [
-  { to: '/', label: 'Dashboard', icon: HomeIcon },
+  { to: '/dashboard', label: 'Dashboard', icon: HomeIcon },
   { to: '/jadwal-terapi', label: 'Jadwal Terapi', icon: CalendarDaysIcon },
   { to: '/daftar-pasien', label: 'Daftar Pasien', icon: UsersIcon },
   { to: '/tambah-pasien', label: 'Tambah Pasien', icon: UserPlusIcon },

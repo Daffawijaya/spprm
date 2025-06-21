@@ -1,17 +1,22 @@
 <template>
-  <div>
-    <h1>Edit Pasien</h1>
-    <Form :form="form" :onSubmit="kirimData" />
-  </div>
+  <Card>
+    <template #header>
+      Edit Pasien
+    </template>
+    <template #form>
+      <Form :form="form" :onSubmit="kirimData" />
+    </template>
+  </Card>
 </template>
 
 <script>
 import Form from '../../components/Form.vue'
+import Card from '../../components/Card.vue'
 import { usePasienStore } from '../../stores/pasienStore' // ✅ Import store
 
 
 export default {
-  components: { Form },
+  components: { Form, Card },
   props: ['id'],
   data() {
     return {

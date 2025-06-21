@@ -12,9 +12,15 @@ import PilihTanggal from '../view/pasien/PilihTanggal.vue';
 import PilihSesi from '../view/pasien/PilihSesi.vue';
 import SesiTerapi from '../view/jadwal/SesiTerapi.vue';
 import PasienSesi from '../view/jadwal/PasienSesi.vue';
+import LandingPage from '../view/LandingPage.vue';
+import Login from '../view/Login.vue';
 
 const routes = [
-  { path: '/', name: 'Dashboard', component: Dashboard },
+
+   { path: '/', name: 'LandingPage', component: LandingPage },
+   { path: '/login', name: 'Login', component: Login },
+
+  { path: '/dashboard', name: 'Dashboard', component: Dashboard },
 
   { path: '/daftar-pasien', name: 'DaftarPasien', component: DaftarPasien },
   { path: '/tambah-pasien', name: 'TambahPasien', component: TambahPasien },
