@@ -5,6 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PasienController;
 use App\Http\Controllers\Api\JadwalTerapiController;
 
+use App\Http\Controllers\Api\AuthController;
+
+Route::group(['prefix'=>'auth'], function(){
+  Route::post('login', [AuthController::class,'login']);
+  Route::post('logout', [AuthController::class,'logout'])->middleware('auth:api');
+  Route::post('refresh', [AuthController::class,'refresh'])->middleware('auth:api');
+  Route::get('me', [AuthController::class,'me'])->middleware('auth:api');
+});
+
+
 Route::get('/dashboard-summary', [DashboardController::class, 'summary']);
 
 Route::get('pasien/by-jadwal', [PasienController::class, 'byTanggalSesi']);
