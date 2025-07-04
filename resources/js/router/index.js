@@ -16,31 +16,42 @@ import LandingPage from '../view/LandingPage.vue';
 import Login from '../view/Login.vue';
 
 const routes = [
-
-   { path: '/', name: 'LandingPage', component: LandingPage },
-   { path: '/login', name: 'Login', component: Login },
+  { path: '/', name: 'LandingPage', component: LandingPage },
+  { path: '/login', name: 'Login', component: Login },
 
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-
   { path: '/daftar-pasien', name: 'DaftarPasien', component: DaftarPasien },
   { path: '/tambah-pasien', name: 'TambahPasien', component: TambahPasien },
   { path: '/reschedule', name: 'Reschedule', component: Reschedule },
   { path: '/qa', name: 'QA', component: QA },
   { path: '/daftar-pasien/manajemen/:id', name: 'ManajemenPasien', component: ManajemenPasien },
-
   { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal', name: 'PilihTanggal', component: PilihTanggal, props: true },
   { path: '/daftar-pasien/manajemen/:pasienId/terapi/:jenisTerapi/tanggal/:tanggal/sesi', name: 'PilihSesi', component: PilihSesi, props: true },
   { path: '/daftar-pasien/manajemen/:pasienId/jadwal/:jadwalId?', name: 'TambahEditJadwal', component: TambahEditJadwal, props: true },
   { path: '/daftar-pasien/manajemen/:id/edit', name: 'EditPasien', component: EditPasien, props: true },
-
   { path: '/jadwal-terapi', name: 'JadwalTerapi', component: JadwalTerapi },
   { path: '/jadwal-terapi/sesi/:tanggal', name: 'SesiTerapi', component: SesiTerapi },
-  { path: '/jadwal-terapi/sesi/:tanggal/pasien', name: 'PasienBySesi', component: PasienSesi }
+  { path: '/jadwal-terapi/sesi/:tanggal/pasien', name: 'PasienBySesi', component: PasienSesi },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+// ROUTES yang tidak perlu login
+const PUBLIC_ROUTES = ['LandingPage', 'Login']
+
+// Middleware global
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem('token') // sesuaikan jika kamu pakai metode lain
+
+  if (!isLoggedIn && !PUBLIC_ROUTES.includes(to.name)) {
+    // jika belum login dan buka halaman bukan publik → redirect ke LandingPage
+    next({ name: 'LandingPage' })
+  } else {
+    next()
+  }
+})
 
 export default router;
