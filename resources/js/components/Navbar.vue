@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 flex justify-end">
+    <div class="py-4 px-8 flex justify-end w-full backdrop-blur-md">
         <div class="relative" @click="toggleDropdown" style="cursor: pointer; ">
             <img src="http://localhost:8000/image/default-profile.jpg" alt="Foto Profil"
                 class="w-10 h-10 rounded-full" />
