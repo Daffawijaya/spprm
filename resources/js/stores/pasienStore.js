@@ -129,7 +129,7 @@ export const usePasienStore = defineStore("pasien", {
                 const response = await axios.get("/api/pasien/by-jadwal", {
                     params: { tanggal, sesi },
                 });
-                this.pasienResponse = response.data;
+                this.pasienResponse = response.data.data;
             } catch (err) {
                 this.error = err;
                 console.error("Gagal fetch pasien berdasarkan sesi:", err);
