@@ -70,9 +70,6 @@ export const usePasienStore = defineStore("pasien", {
                 const response = await axios.post("/api/pasien", data);
 
                 const pasienBaru = response.data.data;
-
-                // ❌ SALAH: this.pasienList.push(response.data)
-                // ✅ BENAR:
                 this.pasienList.push(pasienBaru);
 
                 return {
