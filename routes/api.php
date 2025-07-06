@@ -7,11 +7,12 @@ use App\Http\Controllers\Api\JadwalTerapiController;
 
 use App\Http\Controllers\Api\AuthController;
 
-Route::group(['prefix'=>'auth'], function(){
-  Route::post('login', [AuthController::class,'login']);
-  Route::post('logout', [AuthController::class,'logout'])->middleware('auth:api');
-  Route::post('refresh', [AuthController::class,'refresh'])->middleware('auth:api');
-  Route::get('me', [AuthController::class,'me'])->middleware('auth:api');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+    Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+    Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 });
 
 
@@ -30,4 +31,3 @@ Route::delete('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class,
 // Endpoint tambahan
 Route::get('status/bulan', [JadwalTerapiController::class, 'statusBulan']);
 Route::get('status/tanggal', [JadwalTerapiController::class, 'statusTanggal']);
-

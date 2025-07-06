@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Pasien;
-use Illuminate\Support\Carbon;
 use App\Models\JadwalTerapi;
+use Illuminate\Support\Carbon;
 
 class PasienController extends Controller
 {
@@ -43,7 +43,7 @@ class PasienController extends Controller
             'jenis_pasien' => 'required|in:BPJS,Mandiri',
             'berlaku_hingga' => 'nullable|date',
             'poli_asal' => 'required',
-            'riwayat_medis' => 'nullable'
+            'riwayat_medis' => 'nullable',
         ], [
             'nik.required' => 'NIK wajib diisi.',
             'nik.digits' => 'NIK harus terdiri dari 16 digit angka.',
@@ -61,14 +61,22 @@ class PasienController extends Controller
             'berlaku_hingga.date' => 'Format tanggal tidak valid.',
         ]);
 
-        return Pasien::create($validated);
-    }
+        $pasien = Pasien::create($validated);
 
+        return response()->json([
+            'message' => 'Pasien berhasil ditambahkan.',
+            'data' => $pasien,
+            'id' => $pasien->id
+        ], 201);
+    }
 
     public function show($id)
     {
         $pasien = Pasien::with('jadwalTerapis')->findOrFail($id);
-        return response()->json($pasien);
+        return response()->json([
+            'message' => 'Detail pasien ditemukan.',
+            'data' => $pasien
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -85,26 +93,28 @@ class PasienController extends Controller
             'jenis_pasien' => 'required|in:BPJS,Mandiri',
             'berlaku_hingga' => 'nullable|date',
             'poli_asal' => 'required',
-            'riwayat_medis' => 'nullable'
+            'riwayat_medis' => 'nullable',
         ], [
             'nik.required' => 'NIK wajib diisi.',
             'nik.digits' => 'NIK harus terdiri dari 16 digit angka.',
             'nik.unique' => 'NIK ini sudah terdaftar untuk pasien lain.',
-            // tambahkan pesan lainnya seperti di store()
         ]);
 
         $pasien->update($validated);
-        return $pasien;
-    }
 
+        return response()->json([
+            'message' => 'Pasien berhasil diperbarui.',
+            'data' => $pasien
+        ]);
+    }
 
     public function destroy($id)
     {
         Pasien::destroy($id);
-        return response()->json(['message' => 'Pasien dihapus']);
+        return response()->json([
+            'message' => 'Pasien berhasil dihapus.'
+        ]);
     }
-
-
 
     public function byTanggalSesi(Request $request)
     {
@@ -129,24 +139,25 @@ class PasienController extends Controller
 
         $waktu = JadwalTerapi::sesiWaktu()[$sesi] ?? '-';
 
-        $data = [
-            'jadwal' => [
-                'hari' => \Carbon\Carbon::parse($tanggal)->isoFormat('dddd'),
-                'tanggal' => $tanggal,
-                'waktu' => $waktu,
-                'jenis_terapi' => optional($pasienList->first()?->jadwalTerapis->first())->jenis_terapi ?? '-',
-            ],
-            'pasien' => $pasienList->map(function ($pasien) {
-                return [
-                    'id' => $pasien->id,
-                    'nama' => $pasien->nama,
-                    'umur' => $pasien->umur,
-                    'poli_asal' => $pasien->poli_asal,
-                    'jenis_pasien' => $pasien->jenis_pasien,
-                ];
-            }),
-        ];
-
-        return response()->json($data);
+        return response()->json([
+            'message' => 'Data pasien berdasarkan sesi berhasil diambil.',
+            'data' => [
+                'jadwal' => [
+                    'hari' => Carbon::parse($tanggal)->isoFormat('dddd'),
+                    'tanggal' => $tanggal,
+                    'waktu' => $waktu,
+                    'jenis_terapi' => optional($pasienList->first()?->jadwalTerapis->first())->jenis_terapi ?? '-',
+                ],
+                'pasien' => $pasienList->map(function ($pasien) {
+                    return [
+                        'id' => $pasien->id,
+                        'nama' => $pasien->nama,
+                        'umur' => $pasien->umur,
+                        'poli_asal' => $pasien->poli_asal,
+                        'jenis_pasien' => $pasien->jenis_pasien,
+                    ];
+                }),
+            ]
+        ]);
     }
 }

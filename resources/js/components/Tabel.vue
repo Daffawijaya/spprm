@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr v-for="(item, rowIndex) in items" :key="rowIndex" :class="rowIndex % 2 === 1 ? 'bg-[#F6F8FE]' : 'bg-white'">
-          <td v-for="(key, idx) in keys" :key="idx" class="text-base px-8 py-5 whitespace-nowrap"
+          <td v-for="(key, idx) in keys" :key="idx" class="capitalize text-base px-8 py-5 whitespace-nowrap"
             :style="{ width: colWidth }">
             {{ item[key] }}
           </td>
