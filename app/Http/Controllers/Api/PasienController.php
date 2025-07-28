@@ -47,30 +47,27 @@ class PasienController extends Controller
             'poli_asal' => 'required',
             'riwayat_medis' => 'nullable',
         ], [
-            'nik.required' => 'NIK wajib diisi.',
-            'nik.digits' => 'NIK harus terdiri dari 16 digit angka.',
-            'nik.unique' => 'NIK ini sudah terdaftar.',
-            'nama.required' => 'Nama wajib diisi.',
-            'umur.required' => 'Umur wajib diisi.',
-            'umur.integer' => 'Umur harus berupa angka.',
-            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
-            'jenis_kelamin.in' => 'Jenis kelamin harus L (Laki-laki) atau P (Perempuan).',
-            'alamat.required' => 'Alamat wajib diisi.',
-            'no_telepon.required' => 'Nomor telepon wajib diisi.',
-            'jenis_pasien.required' => 'Jenis pasien wajib dipilih.',
-            'jenis_pasien.in' => 'Jenis pasien harus BPJS atau Mandiri.',
-            'poli_asal.required' => 'Poli asal wajib diisi.',
-            'berlaku_hingga.date' => 'Format tanggal tidak valid.',
+            // Pesan error kustom
         ]);
 
+        // Simpan data pasien
         $pasien = Pasien::create($validated);
 
-        $email = $pasien->nik;
+        $email = $pasien->nik . '@pasien.app'; // atau ganti sesuai kebutuhan
+        $defaultPassword = env('DEFAULT_USER_PASSWORD', 'default123');
 
+        // Cek apakah user dengan email ini sudah ada
+        if (User::where('email', $email)->exists()) {
+            return response()->json([
+                'message' => 'Akun pasien sudah ada.',
+            ], 409);
+        }
+
+        // Buat akun login pasien
         $user = User::create([
             'name' => $pasien->nama,
             'email' => $email,
-            'password' => Hash::make('default123'),
+            'password' => Hash::make($defaultPassword),
             'role' => User::ROLE_PASIEN,
             'pasien_id' => $pasien->id,
         ]);
@@ -80,7 +77,7 @@ class PasienController extends Controller
             'data' => $pasien,
             'login' => [
                 'email' => $user->email,
-                'password' => 'default123',
+                'password' => $defaultPassword,
             ],
         ], 201);
     }

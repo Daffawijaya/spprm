@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\JadwalTerapiController;
 use App\Http\Controllers\Api\AuthController;
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
     Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
