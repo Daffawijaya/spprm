@@ -16,18 +16,18 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 
-Route::get('/dashboard-summary', [DashboardController::class, 'summary']);
+Route::middleware('auth:api')->group(function () {
+    Route::get('/dashboard-summary', [DashboardController::class, 'summary']);
 
-Route::get('pasien/by-jadwal', [PasienController::class, 'byTanggalSesi']);
+    Route::get('pasien/by-jadwal', [PasienController::class, 'byTanggalSesi']);
+    Route::apiResource('pasien', PasienController::class);
 
-Route::apiResource('pasien', PasienController::class);
+    Route::get('pasien/{pasien}/jadwal', [JadwalTerapiController::class, 'index']);
+    Route::post('pasien/{pasien}/jadwal', [JadwalTerapiController::class, 'store']);
+    Route::get('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'show']);
+    Route::put('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'update']);
+    Route::delete('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'destroy']);
 
-Route::get('pasien/{pasien}/jadwal', [JadwalTerapiController::class, 'index']);
-Route::post('pasien/{pasien}/jadwal', [JadwalTerapiController::class, 'store']);
-Route::get('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'show']);
-Route::put('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'update']);
-Route::delete('pasien/{pasien}/jadwal/{jadwal}', [JadwalTerapiController::class, 'destroy']);
-
-// Endpoint tambahan
-Route::get('status/bulan', [JadwalTerapiController::class, 'statusBulan']);
-Route::get('status/tanggal', [JadwalTerapiController::class, 'statusTanggal']);
+    Route::get('status/bulan', [JadwalTerapiController::class, 'statusBulan']);
+    Route::get('status/tanggal', [JadwalTerapiController::class, 'statusTanggal']);
+});

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Pasien;
 use App\Models\JadwalTerapi;
 use Illuminate\Support\Carbon;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class PasienController extends Controller
 {
@@ -63,10 +65,23 @@ class PasienController extends Controller
 
         $pasien = Pasien::create($validated);
 
+        $email = $pasien->nik;
+
+        $user = User::create([
+            'name' => $pasien->nama,
+            'email' => $email,
+            'password' => Hash::make('default123'),
+            'role' => User::ROLE_PASIEN,
+            'pasien_id' => $pasien->id,
+        ]);
+
         return response()->json([
-            'message' => 'Pasien berhasil ditambahkan.',
+            'message' => 'Pasien dan akun login berhasil ditambahkan.',
             'data' => $pasien,
-            'id' => $pasien->id
+            'login' => [
+                'email' => $user->email,
+                'password' => 'default123',
+            ],
         ], 201);
     }
 

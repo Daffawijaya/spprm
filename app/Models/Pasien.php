@@ -15,6 +15,10 @@ class Pasien extends Model
     {
         return $this->hasMany(JadwalTerapi::class);
     }
+    public function user()
+{
+    return $this->hasOne(User::class);
+}
 }
 
 

@@ -1,102 +1,122 @@
-<!-- views/Dashboard.vue -->
 <template>
-    <div class="space-y-2">
-         <div class="text-xl font-semibold">
-           Dashboard
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-2">
-            <WidgetCard title="Total Pasien" :value="summary.total_pasien" valueLabel="Pasien" :icon="UserGroupIcon"
-                bgColor="bg-orange" buttonColor="orange" buttonText="Daftar Pasien" @action="goToPasien" />
+    <div class="space-y-4">
+        <div class="text-2xl font-semibold">Dashboard</div>
 
-            <WidgetCard title="Total Jadwal" :value="summary.total_jadwal" valueLabel="Jadwal" :icon="CalendarDaysIcon"
-                bgColor="bg-yellow" buttonColor="yellow" buttonText="Jadwal Terapi" @action="goToJadwal" />
+        <!-- Statistik -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <WidgetCard
+                title="Total Pasien"
+                :value="summary.total_pasien"
+                valueLabel="Pasien"
+                :icon="UserGroupIcon"
+                bgColor="bg-orange"
+                buttonColor="orange"
+                buttonText="Daftar Pasien"
+                @action="goToPasien"
+            />
 
+            <WidgetCard
+                title="Total Jadwal"
+                :value="summary.total_jadwal"
+                valueLabel="Jadwal"
+                :icon="CalendarDaysIcon"
+                bgColor="bg-yellow"
+                buttonColor="yellow"
+                buttonText="Jadwal Terapi"
+                @action="goToJadwal"
+            />
         </div>
+
+        <!-- Kalender Jadwal -->
         <Card>
-
-            <template #header>
-                Jadwal Terapi
-            </template>
+            <template #header>Jadwal Terapi</template>
 
             <template #table>
-                <TanggalKalender :tahun="tahun" :bulan="bulan" :tanggalList="bulanStore.tanggalList"
-                    @pilih-tanggal="pilihTanggal" @next-month="nextMonth" @prev-month="prevMonth" />
+                <div class="overflow-x-auto">
+                    <TanggalKalender
+                        :tahun="tahun"
+                        :bulan="bulan"
+                        :tanggalList="bulanStore.tanggalList"
+                        @pilih-tanggal="pilihTanggal"
+                        @next-month="nextMonth"
+                        @prev-month="prevMonth"
+                    />
+                </div>
             </template>
         </Card>
     </div>
-
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import WidgetCard from '@/components/WidgetCard.vue'
-import { UserGroupIcon, CalendarDaysIcon } from '@heroicons/vue/24/solid'
-import axios from 'axios'
-import Card from '../components/Card.vue'
+import { onMounted, ref } from "vue";
+import WidgetCard from "@/components/WidgetCard.vue";
+import { UserGroupIcon, CalendarDaysIcon } from "@heroicons/vue/24/solid";
+import axios from "axios";
+import Card from "../components/Card.vue";
 
-import TanggalKalender from '@/components/TanggalKalender.vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useBulanStore } from '@/stores/bulanStore'
+import TanggalKalender from "@/components/TanggalKalender.vue";
+import { useRouter, useRoute } from "vue-router";
+import { useBulanStore } from "@/stores/bulanStore";
 
-const router = useRouter()
-const route = useRoute()
-const { pasienId, jenisTerapi } = route.params
+const router = useRouter();
+const route = useRoute();
+const { pasienId, jenisTerapi } = route.params;
 
-const bulanStore = useBulanStore()
-bulanStore.setJenisTerapi(jenisTerapi)
+const bulanStore = useBulanStore();
+bulanStore.setJenisTerapi(jenisTerapi);
 
-const today = new Date()
-const tahun = ref(today.getFullYear())
-const bulan = ref(today.getMonth())
+const today = new Date();
+const tahun = ref(today.getFullYear());
+const bulan = ref(today.getMonth());
 
 const fetchTanggal = async () => {
-    await bulanStore.fetchTanggalList(tahun.value, bulan.value + 1)
-}
-onMounted(fetchTanggal)
+    await bulanStore.fetchTanggalList(tahun.value, bulan.value + 1);
+};
+onMounted(fetchTanggal);
 
 const nextMonth = () => {
     if (bulan.value === 11) {
-        bulan.value = 0
-        tahun.value++
+        bulan.value = 0;
+        tahun.value++;
     } else {
-        bulan.value++
+        bulan.value++;
     }
-    fetchTanggal()
-}
+    fetchTanggal();
+};
 
 const prevMonth = () => {
     if (bulan.value === 0) {
-        bulan.value = 11
-        tahun.value--
+        bulan.value = 11;
+        tahun.value--;
     } else {
-        bulan.value--
+        bulan.value--;
     }
-    fetchTanggal()
-}
+    fetchTanggal();
+};
 
 const pilihTanggal = (tanggal) => {
     router.push({
-        name: 'SesiTerapi',
-        params: { tanggal }
-    })
-}
+        name: "SesiTerapi",
+        params: { tanggal },
+    });
+};
 
-const summary = ref({ total_pasien: 0, total_jadwal: 0 })
+const summary = ref({ total_pasien: 0, total_jadwal: 0 });
 
 const fetchSummary = async () => {
-    const res = await axios.get('/api/dashboard-summary')
-    summary.value = res.data
-}
+    const res = await axios.get("/api/dashboard-summary");
+    summary.value = res.data;
+};
 
 onMounted(() => {
-    fetchSummary()
-})
+    fetchSummary();
+});
 
 function goToPasien() {
-    router.push({ name: 'DaftarPasien' })
+    router.push({ name: "DaftarPasien" });
 }
 
 function goToJadwal() {
-    router.push({ name: 'JadwalTerapi' })
+    router.push({ name: "JadwalTerapi" });
 }
 </script>

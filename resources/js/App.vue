@@ -3,7 +3,7 @@
         <!-- Layout utama (Sidebar + Navbar) hanya untuk halaman selain Landing dan Login -->
         <div v-if="!isPublicPage" class="flex bg-[#EFF2F9]">
             <!-- Sidebar -->
-            <div class="fixed top-0 left-0 h-screen w-48 z-50">
+            <div class="fixed top-0 left-0 h-screen w-48 z-50 hidden md:block">
                 <Sidebar />
             </div>
 
@@ -36,10 +36,13 @@ import { computed } from "vue";
 import Sidebar from "./components/Sidebar.vue";
 import Navbar from "./components/Navbar.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
+import { useAuthStore } from "./stores/auth";
 
 // Nama route yang tidak perlu Sidebar/Navbar
 const PUBLIC_ROUTES = ["LandingPage", "Login", "Signup"];
 
 const route = useRoute();
 const isPublicPage = computed(() => PUBLIC_ROUTES.includes(route.name));
+const auth = useAuthStore();
+auth.init();
 </script>
