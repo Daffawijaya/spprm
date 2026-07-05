@@ -53,7 +53,7 @@ class PasienController extends Controller
         // Simpan data pasien
         $pasien = Pasien::create($validated);
 
-        $email = $pasien->nik . '@pasien.app'; // atau ganti sesuai kebutuhan
+        $email = $pasien->nik; // atau ganti sesuai kebutuhan
         $defaultPassword = env('DEFAULT_USER_PASSWORD', 'default123');
 
         // Cek apakah user dengan email ini sudah ada
